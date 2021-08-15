@@ -9,7 +9,7 @@
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'Purchases'"
+          :title="'Purchase'"
           :number="2020"
         />
       </div>
