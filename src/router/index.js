@@ -79,7 +79,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -91,7 +91,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
+        meta: { title: '文档', icon: 'documentation', affix: true }
       }
     ]
   },
@@ -104,7 +104,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/guide/index'),
         name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
+        meta: { title: '向导', icon: 'guide', noCache: true }
       }
     ]
   },
@@ -118,7 +118,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
+        meta: { title: '账号', icon: 'user', noCache: true }
       }
     ]
   }
@@ -179,7 +179,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/icons/index'),
         name: 'Icons',
-        meta: { title: 'Icons', icon: 'icon', noCache: true }
+        meta: { title: '图标', icon: 'icon', noCache: true }
       }
     ]
   },
@@ -196,7 +196,7 @@ export const asyncRoutes = [
     redirect: '/example/list',
     name: 'Example',
     meta: {
-      title: 'Example',
+      title: '例子',
       icon: 'el-icon-s-help'
     },
     children: [
