@@ -7,6 +7,13 @@ export function fetchList(query) {
     params: query
   })
 }
+export function userList(query) {
+  return request({
+    url: '/vue-element-admin/user/userList',
+    method: 'get',
+    params: query
+  })
+}
 export function aa(query) {
   return request({
     url: '/api/user',
