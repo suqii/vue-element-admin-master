@@ -14,6 +14,21 @@ export function userList(query) {
     params: query
   })
 }
+export function userCreate(query) {
+  return request({
+    url: '/vue-element-admin/user/userCreate',
+    method: 'get',
+    params: query
+  })
+}
+// 获取用户信息
+export function getuserinfo(user_id) {
+  return request({
+    url: '/getuserinfo',
+    method: 'post',
+    params: { user_id }
+  })
+}
 export function aa(query) {
   return request({
     url: '/api/user',
