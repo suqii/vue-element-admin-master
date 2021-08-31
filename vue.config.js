@@ -36,6 +36,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    // <-------------走自定义接口（开始）---------------->
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         target: 'http://api.test2.com/api/v1',
@@ -46,7 +47,9 @@ module.exports = {
         }
       }
     }
+    // <-------------走自定义接口（结束）---------------->
 
+    // <-------------走自mock接口---------------->
     // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
