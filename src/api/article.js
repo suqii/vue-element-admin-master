@@ -29,6 +29,14 @@ export function getuserinfo(user_id) {
     params: { user_id }
   })
 }
+// 删除用户
+export function userDelete(user_id) {
+  return request({
+    url: '/vue-element-admin/user/userDelete',
+    method: 'post',
+    params: { user_id }
+  })
+}
 export function aa(query) {
   return request({
     url: '/api/user',

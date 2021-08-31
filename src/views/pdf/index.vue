@@ -163,7 +163,7 @@
 </template>
 <script>
 // userCreate,
-import { userList, getuserinfo } from '@/api/article'
+import { userList, getuserinfo, userDelete } from '@/api/article'
 export default {
   data() {
     // 校验邮箱
@@ -294,7 +294,7 @@ export default {
   methods: {
     async getUserList() {
       userList().then(response => {
-        console.log(response.data.list)
+        // console.log(response.data.list)
         this.userList = response.data.list
         //  时间转换
         this.userList.forEach((row) => {
@@ -303,7 +303,7 @@ export default {
           }
         })
         this.total = response.data.list.length
-        console.log(this.total)
+        // console.log(this.total)
       })
     },
     // 时间戳转换
@@ -454,12 +454,13 @@ export default {
         return this.$message.info('已取消删除')
       }
       // 发送删除请求
-      const { data: res } = await this.$http.delete('users/' + id)
-      if (res.meta.status !== 200) {
-        this.$message.error('删除失败')
-      }
-      this.$message.success('删除成功')
-      this.getUserList()
+      userDelete(id).then(res => {
+        if (res.code !== 20000) {
+          this.$message.error('删除失败')
+        }
+        this.$message.success('删除成功')
+        this.getUserList()
+      })
     }
   }
 }
