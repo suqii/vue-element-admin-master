@@ -37,6 +37,14 @@ export function userDelete(user_id) {
     params: { user_id }
   })
 }
+// 修改用户
+export function userEdit(user_id, job, path, sex, email) {
+  return request({
+    url: '/vue-element-admin/user/userEdit',
+    method: 'post',
+    params: { user_id, job, path, sex, email }
+  })
+}
 export function aa(query) {
   return request({
     url: '/api/user',

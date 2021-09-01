@@ -153,17 +153,35 @@
         <el-form-item label="手机" prop="phone">
           <el-input v-model="editForm.phone" />
         </el-form-item>
+        <el-form-item label="工作" prop="userinfo.job">
+          <el-input v-model="editForm.userinfo.job" />
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-select v-model="editForm.userinfo.sex" placeholder="性别">
+            <el-option label="男" value="1" />
+            <el-option label="女" value="2" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-cascader
+            v-model="selectedOptions"
+            size="large"
+            :options="options"
+            @change="handleAreaChange"
+          />
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUserInfo">确 定</el-button>
+        <el-button type="primary" @click="editUserInfo(editForm.id)">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
 // userCreate,
-import { userList, getuserinfo, userDelete } from '@/api/article'
+import { userList, getuserinfo, userDelete, userEdit } from '@/api/article'
+import { regionDataPlus, CodeToText } from 'element-china-area-data'
 export default {
   data() {
     // 校验邮箱
@@ -192,12 +210,16 @@ export default {
         // 当前每页显示的条数
         pagesize: 2
       },
+      // element-china-area-data数据模板
+      options: regionDataPlus,
+      selectedOptions: [],
       userList: [],
       total: 0,
       // 控制添加用户对话框显示与隐藏
       addDialogVisible: false,
       // 添加用户的表单数据
       addForm: {
+        id: '',
         username: '',
         password: '',
         email: '',
@@ -259,7 +281,12 @@ export default {
       editForm: {
         email: '',
         password: '',
-        phone: ''
+        phone: '',
+        userinfo: {
+          job: '',
+          sex: '',
+          path: ''
+        }
       },
       // 修改表单验证对象
       editFormRules: {
@@ -350,6 +377,26 @@ export default {
       }
       return clock
     },
+    // element-china-area-data转文字
+    handleAreaChange(value) {
+      if (value[1] != null && value[2] != null) {
+        var dz =
+          CodeToText[value[0]] + CodeToText[value[1]] + CodeToText[value[2]]
+        this.addressid = value[2]
+      } else {
+        if (value[1] != null) {
+          dz = CodeToText[value[0]] + CodeToText[value[1]]
+          this.addressid = value[1]
+        } else {
+          dz = CodeToText[value[0]]
+          this.addressid = value[0]
+        }
+      }
+      this.editForm.userinfo.path = dz
+
+      // console.log(dz)
+      // console.log(value)
+    },
     // 监听 pagesize 改变的事件
     handleSizeChange(newSize) {
       this.queryInfo.pagesize = newSize
@@ -396,12 +443,24 @@ export default {
     },
     // 修改用户
     async showEditDialog(id) {
+      console.log(this.selectedOptions)
       getuserinfo(id).then(response => {
-        console.log(response.data)
+        // console.log(response.data)
+        this.editForm.id = response.data.id
         this.editForm.email = response.data.email
         this.editForm.username = response.data.username
         this.editForm.phone = response.data.phone
+        this.editForm.userinfo.job = response.data.userinfo.job
+        // 性别判断
+        // eslint-disable-next-line eqeqeq
+        if (response.data.userinfo.sex != 1) {
+          this.editForm.userinfo.sex = '女'
+        } else {
+          this.editForm.userinfo.sex = '男'
+        }
+        this.editForm.userinfo.path = response.data.userinfo.path
       })
+      // console.log(id + '参数（工作）： ' + this.editForm.userinfo.job + '参数（地址） ' + this.editForm.userinfo.path + '参数（性别） ' + this.editForm.userinfo.sex + '参数（邮箱） ' + this.editForm.email)
       // const { data: res } = await this.$http.get('users/' + id)
       // if (res.meta.status !== 200) {
       //   return this.$message.error(this.meta.msg)
@@ -414,18 +473,27 @@ export default {
       this.$refs.editFormRef.resetFields()
     },
     // 修改用户信息并提交
-    editUserInfo() {
-      this.$refs.editFormRef.validate(async valid => {
-        if (!valid) return
-        // 发起修改用户信息的数据请求
-        const { data: res } = await this.$http.put(
-          'users/' + this.editForm.id,
-          {
-            email: this.editForm.email,
-            mobile: this.editForm.mobile
-          }
-        )
-        if (res.meta.status !== 200) {
+    editUserInfo(id) {
+      // 性别判断
+      // eslint-disable-next-line eqeqeq
+      if (this.editForm.userinfo.sex != 1) {
+        this.editForm.userinfo.sex = 2
+      } else {
+        this.editForm.userinfo.sex = 1
+      }
+      if (!this.editForm.userinfo.job) {
+        this.editForm.userinfo.job = ''
+      }
+      if (!this.editForm.userinfo.path) {
+        this.editForm.userinfo.path = ''
+      }
+      if (!this.editForm.email) {
+        this.editForm.email = ''
+      }
+      // console.log(id + '参数（工作）： ' + this.editForm.userinfo.job + '参数（地址） ' + this.editForm.userinfo.path + '参数（性别） ' + this.editForm.userinfo.sex + '参数（邮箱） ' + this.editForm.email)
+      userEdit(id, this.editForm.userinfo.job, this.editForm.userinfo.path, this.editForm.userinfo.sex, this.editForm.email).then(response => {
+        // console.log(response.data)
+        if (response.code !== 20000) {
           return this.$message.error(this.meta.msg)
         }
         // 关闭对话框
@@ -435,6 +503,17 @@ export default {
         // 提示修改成功
         this.$message.success('更新成功')
       })
+      // this.$refs.editFormRef.validate(async valid => {
+      //   if (!valid) return
+      //   // 发起修改用户信息的数据请求
+      //   const { data: res } = await this.$http.put(
+      //     'users/' + this.editForm.id,
+      //     {
+      //       email: this.editForm.email,
+      //       mobile: this.editForm.mobile
+      //     }
+      //   )
+      // })
     },
     // 根据id删除对应的用户信息
     async removeUserById(id) {
