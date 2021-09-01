@@ -45,6 +45,14 @@ export function userEdit(user_id, job, path, sex, email) {
     params: { user_id, job, path, sex, email }
   })
 }
+// 修改用户头像
+export function userHeadEdit(data) {
+  return request({
+    url: '/vue-element-admin/article/userHeadEdit',
+    method: 'post',
+    data
+  })
+}
 export function aa(query) {
   return request({
     url: '/api/user',
