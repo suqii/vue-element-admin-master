@@ -144,16 +144,19 @@
         :rules="editFormRules"
         label-width="70px"
       >
-        <el-upload
-          class="avatar-uploader"
-          action="http://api.test2.com/api/v1/vue-element-admin/user/userHeadEdit?user_id=18"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon" />
-        </el-upload>
+        <el-form-item label="" class="imageUrl">
+          <el-upload
+            class="avatar-uploader"
+            action="http://api.test2.com/api/v1/vue-element-admin/user/userHeadEdit?user_id=18"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
+        </el-form-item>
+
         <el-form-item label="用户名">
           <el-input v-model="editForm.username" disabled />
         </el-form-item>
@@ -473,6 +476,7 @@ export default {
       getuserinfo(id).then(response => {
         // console.log(response.data)
         this.editForm.id = response.data.id
+        this.imageUrl = response.data.userpic
         this.editForm.email = response.data.email
         this.editForm.username = response.data.username
         this.editForm.phone = response.data.phone
@@ -574,10 +578,14 @@ export default {
 <style lang="less" scoped>
   .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
+  // border: 1px solid red;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 }
 .avatar-uploader .el-upload:hover {
   border-color: #409eff;
@@ -589,11 +597,26 @@ export default {
   height: 178px;
   line-height: 178px;
   text-align: center;
+  // border: 1px solid red;
 }
 .avatar {
   width: 178px;
   height: 178px;
   display: block;
+  // border: 1px solid red;
+  // margin-left: 50%;
+}
+.imageUrl{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid red;
+}
+.avatar-uploader{
+  width: 182px;
+  height: 182px;
+  // border: 1px solid red;
+  margin-left: -15%;
 }
 </style>
 
