@@ -54,7 +54,7 @@ export default {
       this.chart.setOption({
         backgroundColor: '#344b58',
         title: {
-          text: 'statistics',
+          text: '景点话题热度',
           x: '20',
           top: '20',
           textStyle: {
