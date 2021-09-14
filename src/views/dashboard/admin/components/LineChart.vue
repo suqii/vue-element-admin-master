@@ -90,10 +90,10 @@ export default {
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['男', '女']
         },
         series: [{
-          name: 'expected', itemStyle: {
+          name: '女', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -109,7 +109,7 @@ export default {
           animationEasing: 'cubicInOut'
         },
         {
-          name: 'actual',
+          name: '男',
           smooth: true,
           type: 'line',
           itemStyle: {
