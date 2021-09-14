@@ -9,12 +9,26 @@
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'Purchase'"
+          :title="'消息'"
           :number="2020"
         />
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+        <panel-lottie
+          :animation-data-path="animationDataPathFour"
+          :h="80"
+          :w="80"
+          :autoplay="false"
+          :class-name="1"
+          :loop="true"
+          :title="'消息'"
+          :number="2020"
+        />
+      </div>
+    </el-col>
+    <!-- <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-icon-wrapper icon-message">
           <svg-icon icon-class="message" class-name="card-panel-icon" />
@@ -26,7 +40,7 @@
           <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
         </div>
       </div>
-    </el-col>
+    </el-col> -->
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('purchases')">
         <div class="card-panel-icon-wrapper icon-money">

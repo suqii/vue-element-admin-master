@@ -150,7 +150,7 @@ export default {
   }
   .icon-shoppingCard :hover{
     // color: #34bfa3;
-    background: black;
+    // background: black;
   }
   .card-panel-icon-wrapper {
     float: left;
