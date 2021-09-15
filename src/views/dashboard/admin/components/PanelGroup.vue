@@ -3,13 +3,13 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <panel-lottie
-          :animation-data-path="animationDataPath1"
-          :h="80"
-          :w="80"
+          :animation-data-path="animationDataPath10"
+          :h="100"
+          :w="100"
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'消息'"
+          :title="'新增用户'"
           :number="2020"
         />
       </div>
@@ -17,13 +17,13 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <panel-lottie
-          :animation-data-path="animationDataPathFour"
-          :h="80"
-          :w="80"
+          :animation-data-path="animationDataPath6"
+          :h="100"
+          :w="100"
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'消息'"
+          :title="'文章'"
           :number="9260"
         />
       </div>
@@ -81,16 +81,16 @@ export default {
   data() {
     return {
       // 导入lottie动画json
-      animationDataPathOne: require('../../../../assets/json/compass.json'),
-      animationDataPathTwo: require('../../../../assets/json/message.json'),
-      animationDataPathThree: require('../../../../assets/json/people.json'),
-      animationDataPathFour: require('../../../../assets/json/persons.json'),
       animationDataPath1: require('../../../../assets/lottie_json/design.json'),
       animationDataPath2: require('../../../../assets/lottie_json/education.json'),
       animationDataPath3: require('../../../../assets/lottie_json/landing-page.json'),
       animationDataPath4: require('../../../../assets/lottie_json/marketing.json'),
       animationDataPath5: require('../../../../assets/lottie_json/people-around-the-world.json'),
-      animationDataPath6: require('../../../../assets/lottie_json/writting.json')
+      animationDataPath6: require('../../../../assets/lottie_json/writting.json'),
+      animationDataPath7: require('../../../../assets/lottie_json/compass.json'),
+      animationDataPath8: require('../../../../assets/lottie_json/message.json'),
+      animationDataPath9: require('../../../../assets/lottie_json/people.json'),
+      animationDataPath10: require('../../../../assets/lottie_json/persons.json')
     }
   },
   methods: {
