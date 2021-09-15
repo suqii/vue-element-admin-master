@@ -3,7 +3,7 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <panel-lottie
-          :animation-data-path="animationDataPathTwo"
+          :animation-data-path="animationDataPath1"
           :h="80"
           :w="80"
           :autoplay="false"
@@ -24,7 +24,7 @@
           :class-name="1"
           :loop="true"
           :title="'消息'"
-          :number="2020"
+          :number="9260"
         />
       </div>
     </el-col>
@@ -84,7 +84,13 @@ export default {
       animationDataPathOne: require('../../../../assets/json/compass.json'),
       animationDataPathTwo: require('../../../../assets/json/message.json'),
       animationDataPathThree: require('../../../../assets/json/people.json'),
-      animationDataPathFour: require('../../../../assets/json/persons.json')
+      animationDataPathFour: require('../../../../assets/json/persons.json'),
+      animationDataPath1: require('../../../../assets/lottie_json/design.json'),
+      animationDataPath2: require('../../../../assets/lottie_json/education.json'),
+      animationDataPath3: require('../../../../assets/lottie_json/landing-page.json'),
+      animationDataPath4: require('../../../../assets/lottie_json/marketing.json'),
+      animationDataPath5: require('../../../../assets/lottie_json/people-around-the-world.json'),
+      animationDataPath6: require('../../../../assets/lottie_json/writting.json')
     }
   },
   methods: {

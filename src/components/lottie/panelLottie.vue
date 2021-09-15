@@ -21,8 +21,8 @@
       <div class="card-panel-text">
         {{ title }}
       </div>
-      <div class="card-panel-num">
-        {{ number }}
+      <div>
+        <count-to :start-val="0" :end-val="number" :duration="3600" class="card-panel-num" />
       </div>
       <!-- <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" /> -->
     </div>
@@ -30,9 +30,11 @@
 </template>
 
 <script>
+import CountTo from 'vue-count-to'
 import Lottie from './lottie.vue'
 export default {
   components: {
+    CountTo,
     Lottie
   },
   props: {
@@ -167,8 +169,9 @@ export default {
 
 .card-panel-description {
   font-weight: bold;
-  margin: 26px;
-  margin-left: 0px;
+  // margin: 26px;
+  // margin-left: -30px;
+  padding-right: 45px;
   text-align: center;
   .card-panel-text {
     line-height: 18px;
