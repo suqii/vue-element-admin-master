@@ -21,7 +21,8 @@
 </template>
 
 <script>
-// import { transactionList } from "@/api/remote-search";
+// import { test } from '@/api/remote-search'
+import { newUserList } from '@/api/test'
 
 export default {
   filters: {
@@ -42,40 +43,7 @@ export default {
     }
   },
   created() {
-    // this.fetchData()
-    const data = [
-      {
-        username: '用户1',
-        createAt: '2021-01-02',
-        status: '0'
-      },
-      {
-        username: '用户1',
-        createAt: '2021-09-09',
-        status: '1'
-      },
-      {
-        username: '用户1',
-        createAt: '2021-01-02',
-        status: '0'
-      },
-      {
-        username: '用户1',
-        createAt: '2021-01-02',
-        status: '0'
-      },
-      {
-        username: '用户1',
-        createAt: '2021-09-09',
-        status: '1'
-      },
-      {
-        username: '用户1',
-        createAt: '2021-09-09',
-        status: '1'
-      }
-    ]
-    this.list = data
+    this.fetchData()
   },
   methods: {
     // fetchData() {
@@ -83,6 +51,12 @@ export default {
     //     this.list = response.data.items.slice(0, 8)
     //   })
     // }
+    fetchData() {
+      newUserList().then(response => {
+        this.list = response.data.list.slice(0, 8)
+        console.log(response.data)
+      })
+    }
   }
 }
 </script>

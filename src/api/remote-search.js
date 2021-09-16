@@ -15,3 +15,10 @@ export function transactionList(query) {
     params: query
   })
 }
+
+export function test() {
+  return request({
+    url: 'https://www.fastmock.site/mock/2d236839718468299edd0df14cbad715/suqiTest01/vue-element-admin/transaction/list',
+    method: 'get'
+  })
+}

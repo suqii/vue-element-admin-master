@@ -16,6 +16,12 @@ export function getInfo(token) {
   })
 }
 
+export function test() {
+  return request({
+    url: 'https://www.fastmock.site/mock/2d236839718468299edd0df14cbad715/suqiTest01/vue-element-admin/transaction/list',
+    method: 'get'
+  })
+}
 export function logout() {
   return request({
     url: '/vue-element-admin/user/logout',
