@@ -1,19 +1,19 @@
 <template>
   <el-table :data="list" style="width: 100%;padding-top: 15px;">
-    <el-table-column label="Order_No" min-width="200">
+    <el-table-column label="用户" min-width="200">
       <template slot-scope="scope">
-        {{ scope.row.order_no | orderNoFilter }}
+        {{ scope.row.username }}
       </template>
     </el-table-column>
-    <el-table-column label="Price" width="195" align="center">
-      <template slot-scope="scope">
-        ¥{{ scope.row.price | toThousandFilter }}
-      </template>
+    <el-table-column label="创建时间" width="195" align="center">
+      <template slot-scope="scope"> {{ scope.row.createAt }} </template>
     </el-table-column>
-    <el-table-column label="Status" width="100" align="center">
-      <template slot-scope="{row}">
+    <el-table-column label="性别" width="100" align="center">
+      <template slot-scope="{ row }">
         <el-tag :type="row.status | statusFilter">
-          {{ row.status }}
+
+          <div v-if="row.status" class="el-icon-user" />
+          <div v-else class="el-icon-user" />
         </el-tag>
       </template>
     </el-table-column>
@@ -21,14 +21,14 @@
 </template>
 
 <script>
-import { transactionList } from '@/api/remote-search'
+// import { transactionList } from "@/api/remote-search";
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        success: 'success',
-        pending: 'danger'
+        0: '',
+        1: 'danger'
       }
       return statusMap[status]
     },
@@ -42,14 +42,47 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    // this.fetchData()
+    const data = [
+      {
+        username: '用户1',
+        createAt: '2021-01-02',
+        status: '0'
+      },
+      {
+        username: '用户1',
+        createAt: '2021-09-09',
+        status: '1'
+      },
+      {
+        username: '用户1',
+        createAt: '2021-01-02',
+        status: '0'
+      },
+      {
+        username: '用户1',
+        createAt: '2021-01-02',
+        status: '0'
+      },
+      {
+        username: '用户1',
+        createAt: '2021-09-09',
+        status: '1'
+      },
+      {
+        username: '用户1',
+        createAt: '2021-09-09',
+        status: '1'
+      }
+    ]
+    this.list = data
   },
   methods: {
-    fetchData() {
-      transactionList().then(response => {
-        this.list = response.data.items.slice(0, 8)
-      })
-    }
+    // fetchData() {
+    //   transactionList().then(response => {
+    //     this.list = response.data.items.slice(0, 8)
+    //   })
+    // }
   }
 }
 </script>
