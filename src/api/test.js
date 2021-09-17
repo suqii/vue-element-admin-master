@@ -9,9 +9,9 @@ export function newUserList() {
   })
 }
 // 首页折线图数据
-export function newLineInfo() {
+export function charData() {
   return request({
-    url: baseUrl + '/vue-element-admin/newLineInfo',
+    url: baseUrl + '/vue-element-admin/charData',
     method: 'get'
   })
 }

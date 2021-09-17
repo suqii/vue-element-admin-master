@@ -110,7 +110,7 @@
 
 <script>
 // import CountTo from 'vue-count-to'
-import { newLineInfo } from '@/api/test'
+import { charData } from '@/api/test'
 import panelLottie from '../../../../components/lottie/panelLottie.vue'
 export default {
   components: {
@@ -146,7 +146,7 @@ export default {
       this.$emit('handleSetLineChartData', type)
     },
     getLineChartData() {
-      newLineInfo().then(response => {
+      charData().then(response => {
         // console.log(response.data.lineChartData)
         this.cardNumber = response.data.cardNumber
       })
