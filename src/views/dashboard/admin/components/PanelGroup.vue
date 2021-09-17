@@ -10,12 +10,12 @@
           :class-name="1"
           :loop="true"
           :title="'新增用户'"
-          :number="2020"
+          :number="cardNumber.newVisitisNumber"
         />
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+      <div class="card-panel" @click="handleSetLineChartData('messages')">
         <panel-lottie
           :animation-data-path="animationDataPath6"
           :h="100"
@@ -24,7 +24,35 @@
           :class-name="1"
           :loop="true"
           :title="'文章'"
-          :number="9260"
+          :number="cardNumber.messagesNumber"
+        />
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('purchases')">
+        <panel-lottie
+          :animation-data-path="animationDataPath1"
+          :h="100"
+          :w="100"
+          :autoplay="false"
+          :class-name="1"
+          :loop="true"
+          :title="'文章'"
+          :number="cardNumber.purchasesNumber"
+        />
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+        <panel-lottie
+          :animation-data-path="animationDataPath2"
+          :h="100"
+          :w="100"
+          :autoplay="false"
+          :class-name="1"
+          :loop="true"
+          :title="'文章'"
+          :number="cardNumber.shoppings"
         />
       </div>
     </el-col>
@@ -41,7 +69,7 @@
         </div>
       </div>
     </el-col> -->
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <!-- <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('purchases')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
@@ -50,11 +78,16 @@
           <div class="card-panel-text">
             Purchases
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="9280"
+            :duration="3200"
+            class="card-panel-num"
+          />
         </div>
       </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    </el-col> -->
+    <!-- <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('shoppings')">
         <div class="card-panel-icon-wrapper icon-shopping">
           <svg-icon icon-class="shopping" class-name="card-panel-icon" />
@@ -63,19 +96,25 @@
           <div class="card-panel-text">
             Shoppings
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="13600"
+            :duration="3600"
+            class="card-panel-num"
+          />
         </div>
       </div>
-    </el-col>
+    </el-col> -->
   </el-row>
 </template>
 
 <script>
-import CountTo from 'vue-count-to'
+// import CountTo from 'vue-count-to'
+import { newLineInfo } from '@/api/test'
 import panelLottie from '../../../../components/lottie/panelLottie.vue'
 export default {
   components: {
-    CountTo,
+    // CountTo,
     panelLottie
   },
   data() {
@@ -90,12 +129,27 @@ export default {
       animationDataPath7: require('../../../../assets/lottie_json/compass.json'),
       animationDataPath8: require('../../../../assets/lottie_json/message.json'),
       animationDataPath9: require('../../../../assets/lottie_json/people.json'),
-      animationDataPath10: require('../../../../assets/lottie_json/persons.json')
+      animationDataPath10: require('../../../../assets/lottie_json/persons.json'),
+      cardNumber: {
+        newVisitisNumber: 999,
+        messagesNumber: 999,
+        purchasesNumber: 999,
+        shoppingsNumber: 999
+      }
     }
+  },
+  created() {
+    this.getLineChartData()
   },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
+    },
+    getLineChartData() {
+      newLineInfo().then(response => {
+        // console.log(response.data.lineChartData)
+        this.cardNumber = response.data.cardNumber
+      })
     }
   }
 }
@@ -117,8 +171,8 @@ export default {
     overflow: hidden;
     color: #666;
     background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-    border-color: rgba(0, 0, 0, .05);
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
     // border: 1px red solid;
     &:hover {
       .card-panel-icon-wrapper {
@@ -127,7 +181,8 @@ export default {
       .card-panel {
         transition: transform 0.5s;
         transform: translateY(-5px);
-        box-shadow: 0 1px 18px rgba(0, 0, 0, 0.1), 0 5px 30px rgba(0, 0, 0, 0.09);
+        box-shadow: 0 1px 18px rgba(0, 0, 0, 0.1),
+          0 5px 30px rgba(0, 0, 0, 0.09);
       }
 
       .icon-people {
@@ -143,7 +198,7 @@ export default {
       }
 
       .icon-shopping {
-        background: #34bfa3
+        background: #34bfa3;
       }
     }
 
@@ -160,7 +215,7 @@ export default {
     }
 
     .icon-shopping {
-      color: #34bfa3
+      color: #34bfa3;
     }
 
     .card-panel-icon-wrapper {
@@ -196,10 +251,10 @@ export default {
   }
 }
 .card-panel:hover {
-        transition: transform 0.5s;
-        transform: translateY(-5px);
-        box-shadow: 0 1px 18px rgba(0, 0, 0, 0.1), 0 5px 30px rgba(0, 0, 0, 0.09);
-      }
+  transition: transform 0.5s;
+  transform: translateY(-5px);
+  box-shadow: 0 1px 18px rgba(0, 0, 0, 0.1), 0 5px 30px rgba(0, 0, 0, 0.09);
+}
 
 .panel-group {
   margin-top: 18px;
@@ -216,7 +271,7 @@ export default {
 .lottie {
   height: 100%;
 }
-@media (max-width:550px) {
+@media (max-width: 550px) {
   .card-panel-description {
     display: none;
   }

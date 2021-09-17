@@ -54,7 +54,7 @@ export default {
     fetchData() {
       newUserList().then(response => {
         this.list = response.data.list.slice(0, 8)
-        console.log(response.data)
+        // console.log(response.data)
       })
     }
   }

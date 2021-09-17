@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { newLineInfo } from '@/api/test'
 import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
@@ -88,10 +89,19 @@ export default {
       lineChartData: lineChartData.newVisitis
     }
   },
-
+  created() {
+    this.getLineChartData()
+  },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
+    },
+    // eslint-disable-next-line vue/no-dupe-keys
+    getLineChartData() {
+      newLineInfo().then(response => {
+        // console.log(response.data.lineChartData)
+        this.lineChartData = response.data.lineChartData.newVisitis
+      })
     }
   }
 }
