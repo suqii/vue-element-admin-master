@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { newLineInfo } from '@/api/test'
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
@@ -27,13 +28,17 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      indicatorData: null,
+      legendData: null,
+      seriesData: null
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
+    // this.$nextTick(() => {
+    //   this.initChart()
+    // })
+    this.getLineChartData()
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -43,6 +48,18 @@ export default {
     this.chart = null
   },
   methods: {
+    getLineChartData() {
+      newLineInfo().then(response => {
+        // indicatorData数据
+        this.indicatorData = response.data.raddarChartData.indicatorData
+        // number数据
+        this.seriesData = response.data.raddarChartData.seriesData
+        // 注释块数据
+        this.legendData = response.data.raddarChartData.legendData
+        this.initChart()
+        console.log(response.data.raddarChartData)
+      })
+    },
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
 
@@ -67,19 +84,12 @@ export default {
               shadowOffsetY: 15
             }
           },
-          indicator: [
-            { name: 'Sales', max: 10000 },
-            { name: 'Administration', max: 20000 },
-            { name: 'Information Technology', max: 20000 },
-            { name: 'Customer Support', max: 20000 },
-            { name: 'Development', max: 20000 },
-            { name: 'Marketing', max: 20000 }
-          ]
+          indicator: this.indicatorData
         },
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
+          data: this.legendData
         },
         series: [{
           type: 'radar',
@@ -93,20 +103,7 @@ export default {
               opacity: 1
             }
           },
-          data: [
-            {
-              value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated Budget'
-            },
-            {
-              value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected Spending'
-            },
-            {
-              value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual Spending'
-            }
-          ],
+          data: this.seriesData,
           animationDuration: animationDuration
         }]
       })
