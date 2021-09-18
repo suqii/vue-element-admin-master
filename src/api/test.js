@@ -15,3 +15,10 @@ export function charData() {
     method: 'get'
   })
 }
+// 图表
+export function charts() {
+  return request({
+    url: baseUrl + '/vue-element-admin/charts',
+    method: 'get'
+  })
+}

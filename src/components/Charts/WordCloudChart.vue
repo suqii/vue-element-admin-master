@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { charts } from '@/api/test'
 import echarts from 'echarts'
 import resize from './mixins/resize'
 import 'echarts-wordcloud/dist/echarts-wordcloud'
@@ -27,11 +28,11 @@ export default {
       type: String,
       default: '400px'
     },
-    data: {
-      type: Array,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: []
-    },
+    // data: {
+    //   type: Array,
+    //   // eslint-disable-next-line vue/require-valid-default-prop
+    //   default: []
+    // },
     title: {
       type: String,
       default: ''
@@ -39,11 +40,22 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      wordCloudData: [
+        {
+          'name': '花鸟市场',
+          'value': 1446
+        },
+        {
+          'name': '汽车',
+          'value': 928
+        }
+      ]
     }
   },
   mounted() {
-    this.initChart()
+    // this.initChart()
+    this.getChartsData()
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -53,6 +65,13 @@ export default {
     this.chart = null
   },
   methods: {
+    getChartsData() {
+      charts().then(response => {
+        // console.log(response.data.wordCloud)
+        this.wordCloudData = response.data.wordCloud
+        this.initChart()
+      })
+    },
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
       const option = {
@@ -105,7 +124,7 @@ export default {
             width: '200%',
             height: '200%',
             // 数据
-            data: this.data
+            data: this.wordCloudData
           }
         ]
       }

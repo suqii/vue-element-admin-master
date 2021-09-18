@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { charts } from '@/api/test'
 import echarts from 'echarts'
 import resize from './mixins/resize'
 
@@ -29,6 +30,7 @@ export default {
   data() {
     return {
       chart: null,
+      lineMarkerData: null,
       data: {
         dataX: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'],
         dataWoman: [120, 110, 125, 145, 122, 165, 122],
@@ -37,7 +39,8 @@ export default {
     }
   },
   mounted() {
-    this.initChart()
+    this.getChartsData()
+    // this.initChart()
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -47,6 +50,13 @@ export default {
     this.chart = null
   },
   methods: {
+    getChartsData() {
+      charts().then(response => {
+        // console.log(response.data.wordCloud)
+        this.lineMarkerData = response.data.line
+        this.initChart()
+      })
+    },
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
 
@@ -99,7 +109,7 @@ export default {
             }
           },
           // 横坐标取值
-          data: this.data.dataX
+          data: this.lineMarkerData.dataX
         }],
         yAxis: [{
           type: 'value',
@@ -157,7 +167,7 @@ export default {
 
             }
           },
-          data: this.data.dataMan
+          data: this.lineMarkerData.dataMan
         }, {
           name: '女',
           type: 'line',
@@ -190,7 +200,7 @@ export default {
               borderWidth: 12
             }
           },
-          data: this.data.dataWoman
+          data: this.lineMarkerData.dataWoman
         }]
       })
     }

@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { charts } from '@/api/test'
 import echarts from 'echarts'
 import resize from './mixins/resize'
 
@@ -42,6 +43,13 @@ export default {
     this.chart = null
   },
   methods: {
+    getChartsData() {
+      charts().then(response => {
+        // console.log(response.data.wordCloud)
+        this.wordCloudData = response.data.wordCloud
+        this.initChart()
+      })
+    },
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
 
