@@ -23,12 +23,23 @@
             type="primary"
             @click="addDialogVisible = true"
           >添加用户</el-button>
+          <el-button
+            type="danger"
+            @click="deleteSettleUsers"
+          >删除选中</el-button>
         </el-col>
+        <!-- <el-col :span="4">
+          <el-button
+            type="danger"
+            @click="deleteSettleUsers"
+          >删除选中</el-button>
+        </el-col> -->
       </el-row>
 
       <!--用户列表区域-->
-      <el-table :data="userList" border stripe>
-        <el-table-column type="index" label="序号" />
+      <el-table :data="userList.slice(sliceNumStart,sliceNumEnd)" border stripe @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" />
+        <el-table-column prop="id" label="序号" />
         <el-table-column label="头像">
           <template slot-scope="scope">
             <div
@@ -89,8 +100,8 @@
       <!--分页区域-->
       <el-pagination
         :current-page="queryInfo.pagenum"
-        :page-sizes="[1, 2, 5, 10]"
-        :page-size="2"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         @size-change="handleSizeChange"
@@ -215,6 +226,10 @@ export default {
       cb(new Error('请输入合法手机号'))
     }
     return {
+      // 分页数据
+      sliceNumStart: 0,
+      sliceNumEnd: 10,
+      pageSize: 10, // 每页显示个数
       // 获取用户列表的参数对象
       queryInfo: {
         query: '',
@@ -227,6 +242,7 @@ export default {
       // element-china-area-data数据模板
       options: regionDataPlus,
       selectedOptions: [],
+      settleUserList: [],
       userList: [],
       total: 0,
       // 控制添加用户对话框显示与隐藏
@@ -336,7 +352,7 @@ export default {
     async getUserList() {
       userList().then(response => {
         // console.log(response.data.list)
-        this.userList = response.data.list
+        this.userList = response.data.list.reverse()
         //  时间转换
         this.userList.forEach((row) => {
           if (row.create_time) {
@@ -411,6 +427,39 @@ export default {
       // console.log(dz)
       // console.log(value)
     },
+    // 删除选中用户
+    async deleteSettleUsers() {
+      // console.log(' 删除列表 ' + this.settleUserList)
+      // 弹框提示用户是否删除
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除已选中用户, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      // 如果用户确认删除，则返回字符串 confirm
+      // 如果用户取消删除，则返回字符串 cancel
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      // 发送删除请求
+      this.settleUserList.forEach((id) => {
+        // 发送删除请求
+        // console.log(id)
+        userDelete(id).then(res => {
+          if (res.code !== 20000) {
+            this.$message.error('删除用户' + id + '失败')
+          }
+          // console.log('成功删除' + id)
+        })
+      })
+      this.$message.success('删除成功')
+      this.getUserList()
+      // removeUserById
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
     },
@@ -426,17 +475,24 @@ export default {
       }
       return isJPG && isLt2M
     },
+    // 用户多选
+    handleSelectionChange(selection) {
+      this.settleUserList = []
+      selection.forEach((row) => {
+        this.settleUserList.push(row.id)
+      })
+      // console.log(this.settleUserList)
+    },
     // 监听 pagesize 改变的事件
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize
-      this.getUserList()
-      console.log(newSize)
+      this.pageSize = newSize
+      this.sliceNumStart = 0
+      this.sliceNumEnd = newSize
     },
     // 监听页码值改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage
-      this.getUserList()
-      console.log(newPage)
+      this.sliceNumStart = this.pageSize * (newPage - 1)
+      this.sliceNumEnd = this.pageSize * newPage
     },
     // 修改用户状态
     async userStateChanged(userInfo) {
