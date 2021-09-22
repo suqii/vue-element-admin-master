@@ -9,7 +9,7 @@
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'新增用户'"
+          :title="'新增户'"
           :number="cardNumber.newVisitisNumber"
         />
       </div>
