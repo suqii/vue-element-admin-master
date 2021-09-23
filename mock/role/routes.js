@@ -451,21 +451,21 @@ const asyncRoutes = [
   },
 
   {
-    path: '/pdf',
+    path: '/userList',
     component: 'layout/Layout',
-    redirect: '/pdf/index',
+    redirect: '/userList/index',
     children: [
       {
         path: 'index',
-        component: 'views/pdf/index',
-        name: 'PDF',
-        meta: { title: 'PDF', icon: 'pdf' }
+        component: 'views/userList/index',
+        name: 'UserList',
+        meta: { title: '用户管理', icon: 'peoples' }
       }
     ]
   },
   {
-    path: '/pdf/download',
-    component: 'views/pdf/download',
+    path: '/userList/download',
+    component: 'views/userList/download',
     hidden: true
   },
 

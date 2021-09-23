@@ -328,21 +328,21 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/pdf',
+    path: '/userList',
     component: Layout,
-    redirect: '/pdf/index',
+    redirect: '/userList/index',
     children: [
       {
         path: 'index',
-        component: () => import('@/views/pdf/index'),
-        name: 'PDF',
-        meta: { title: 'PDF', icon: 'pdf' }
+        component: () => import('@/views/userList/index'),
+        name: 'UserList',
+        meta: { title: '用户管理', icon: 'peoples' }
       }
     ]
   },
   {
-    path: '/pdf/download',
-    component: () => import('@/views/pdf/download'),
+    path: '/userList/download',
+    component: () => import('@/views/userList/download'),
     hidden: true
   },
 

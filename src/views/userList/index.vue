@@ -45,7 +45,7 @@
             <div
               :style="
                 'height:60px; width:60px; border:1px gray solid;border-radius: 50%;background: url(' +
-                  scope.row.userpic +
+                  (scope.row.userpic ==null? scope.row.userpic: scope.row.userpic.replace(/\\/g, '/')) +
                   ') no-repeat; background-size:cover;'
               "
             /></template>

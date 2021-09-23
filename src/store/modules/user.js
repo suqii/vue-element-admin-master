@@ -1,11 +1,12 @@
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, getUserId, setUserId, removeUserId } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
   name: '',
   avatar: '',
+  userId: getUserId(),
   introduction: '',
   roles: []
 }
@@ -23,6 +24,9 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
+  SET_USERID: (state, userId) => {
+    state.avatar = userId
+  },
   SET_ROLES: (state, roles) => {
     state.roles = roles
   }
@@ -37,7 +41,11 @@ const actions = {
         const { data } = response
         console.log(data)
         commit('SET_TOKEN', data.token)
+        // commit('SET_USERID', data.userinfo.id)
+        state.userId = data.userinfo.id
         setToken(data.token)
+        setUserId(data.userinfo.id)
+        // setToken(data.userinfo.id)
         resolve()
       }).catch(error => {
         reject(error)
@@ -48,7 +56,7 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo(state.userId).then(response => {
         const { data } = response
 
         if (!data) {
@@ -76,10 +84,12 @@ const actions = {
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout(state.userId).then(() => {
         commit('SET_TOKEN', '')
+        // commit('SET_USERID', '')
         commit('SET_ROLES', [])
         removeToken()
+        removeUserId()
         resetRouter()
 
         // reset visited views and cached views
@@ -99,6 +109,7 @@ const actions = {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       removeToken()
+      removeUserId()
       resolve()
     })
   },
