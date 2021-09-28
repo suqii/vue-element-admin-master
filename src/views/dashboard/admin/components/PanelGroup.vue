@@ -51,7 +51,7 @@
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'文章'"
+          :title="'文章2'"
           :number="cardNumber.shoppings"
         />
       </div>
