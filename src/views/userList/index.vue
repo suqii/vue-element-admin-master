@@ -18,22 +18,22 @@
             />
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8">
           <el-button
             type="primary"
             @click="addDialogVisible = true"
           >添加用户</el-button>
-          <!-- <el-button
-            type="danger"
-            @click="deleteSettleUsers"
-          >删除选中</el-button> -->
-        </el-col>
-        <el-col :span="4">
           <el-button
             type="danger"
             @click="deleteSettleUsers"
           >删除选中</el-button>
         </el-col>
+        <!-- <el-col :span="4">
+          <el-button
+            type="danger"
+            @click="deleteSettleUsers"
+          >删除选中</el-button>
+        </el-col> -->
       </el-row>
 
       <!--用户列表区域-->
