@@ -23,21 +23,26 @@
             type="primary"
             @click="addDialogVisible = true"
           >添加用户</el-button>
+          <!-- <el-button
+            type="danger"
+            @click="deleteSettleUsers"
+          >删除选中</el-button> -->
+        </el-col>
+        <el-col :span="4">
           <el-button
             type="danger"
             @click="deleteSettleUsers"
           >删除选中</el-button>
         </el-col>
-        <!-- <el-col :span="4">
-          <el-button
-            type="danger"
-            @click="deleteSettleUsers"
-          >删除选中</el-button>
-        </el-col> -->
       </el-row>
 
       <!--用户列表区域-->
-      <el-table :data="userList.slice(sliceNumStart,sliceNumEnd)" border stripe @selection-change="handleSelectionChange">
+      <el-table
+        :data="userList.slice(sliceNumStart, sliceNumEnd)"
+        border
+        stripe
+        @selection-change="handleSelectionChange"
+      >
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="序号" />
         <el-table-column label="头像">
@@ -45,7 +50,9 @@
             <div
               :style="
                 'height:60px; width:60px; border:1px gray solid;border-radius: 50%;background: url(' +
-                  (scope.row.userpic ==null? scope.row.userpic: scope.row.userpic.replace(/\\/g, '/')) +
+                  (scope.row.userpic == null
+                    ? scope.row.userpic
+                    : scope.row.userpic.replace(/\\/g, '/')) +
                   ') no-repeat; background-size:cover;'
               "
             /></template>
@@ -65,24 +72,39 @@
         <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
-            <el-button
-              type="primary"
-              icon="el-icon-edit"
-              size="mini"
-              round
-              @click="showEditDialog(scope.row.id)"
-            />
-            <!-- 删除按钮 -->
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              size="mini"
-              round
-              @click="removeUserById(scope.row.id)"
-            />
             <el-tooltip
               effect="dark"
-              content="分配角色"
+              content="账号信息修改"
+              placement="top-start"
+              :enterable="false"
+            >
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                size="mini"
+                round
+                @click="showEditDialog(scope.row.id)"
+              />
+            </el-tooltip>
+            <!-- 删除按钮 -->
+            <el-tooltip
+              effect="dark"
+              content="账号删除"
+              placement="top-start"
+              :enterable="false"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                round
+                @click="removeUserById(scope.row.id)"
+              />
+            </el-tooltip>
+            <!-- 重置密码 -->
+            <el-tooltip
+              effect="dark"
+              content="密码重置"
               placement="top-start"
               :enterable="false"
             >
@@ -91,6 +113,7 @@
                 icon="el-icon-setting"
                 size="mini"
                 round
+                @click="restPassword(scope.row.id)"
               />
             </el-tooltip>
           </template>
@@ -197,14 +220,23 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUserInfo(editForm.id)">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="editUserInfo(editForm.id)"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
 // userCreate,
-import { userList, getuserinfo, userDelete, userEdit } from '@/api/article'
+import {
+  userList,
+  getuserinfo,
+  userDelete,
+  rsetUserP,
+  userEdit
+} from '@/api/user'
 import { regionDataPlus, CodeToText } from 'element-china-area-data'
 export default {
   data() {
@@ -354,7 +386,7 @@ export default {
         // console.log(response.data.list)
         this.userList = response.data.list.reverse()
         //  时间转换
-        this.userList.forEach((row) => {
+        this.userList.forEach(row => {
           if (row.create_time) {
             row.create_time = this.transitionTime(row.create_time)
           }
@@ -364,7 +396,8 @@ export default {
       })
     },
     // 时间戳转换
-    transitionTime(time) { // 时间戳转换
+    transitionTime(time) {
+      // 时间戳转换
       // 获得当前运行环境时间
       let data
       // eslint-disable-next-line eqeqeq
@@ -389,16 +422,22 @@ export default {
       const month = now.getMonth() + 1 // 月
       const day = now.getDate() // 日
       let clock = year + '-'
-      if (month < 10) { clock += '0' }
+      if (month < 10) {
+        clock += '0'
+      }
       clock += month + '-'
-      if (day < 10) { clock += '0' }
+      if (day < 10) {
+        clock += '0'
+      }
       clock += day + ' '
       // eslint-disable-next-line eqeqeq
       if (time.toString().length == 13) {
         const hh = now.getHours() // 时
         const mm = now.getMinutes() // 分
         const ss = now.getSeconds() // 秒
-        if (hh < 10) { clock += '0' }
+        if (hh < 10) {
+          clock += '0'
+        }
         clock += hh + ':'
         if (mm < 10) clock += '0'
         clock += mm + ':'
@@ -446,7 +485,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // 发送删除请求
-      this.settleUserList.forEach((id) => {
+      this.settleUserList.forEach(id => {
         // 发送删除请求
         // console.log(id)
         userDelete(id).then(res => {
@@ -478,7 +517,7 @@ export default {
     // 用户多选
     handleSelectionChange(selection) {
       this.settleUserList = []
-      selection.forEach((row) => {
+      selection.forEach(row => {
         this.settleUserList.push(row.id)
       })
       // console.log(this.settleUserList)
@@ -524,6 +563,16 @@ export default {
         this.addDialogVisible = false
         // 刷新用户列表
         this.getUserList()
+      })
+    },
+    // 重置密码
+    restPassword(id) {
+      console.log('重置id为' + id + '的密码')
+      rsetUserP(id).then(res => {
+        if (res.code !== 20000) {
+          this.$message.error('重置用户' + id + '密码失败')
+        }
+        // console.log('成功删除' + id)
       })
     },
     // 修改用户
@@ -577,7 +626,13 @@ export default {
         this.editForm.email = ''
       }
       // console.log(id + '参数（工作）： ' + this.editForm.userinfo.job + '参数（地址） ' + this.editForm.userinfo.path + '参数（性别） ' + this.editForm.userinfo.sex + '参数（邮箱） ' + this.editForm.email)
-      userEdit(id, this.editForm.userinfo.job, this.editForm.userinfo.path, this.editForm.userinfo.sex, this.editForm.email).then(response => {
+      userEdit(
+        id,
+        this.editForm.userinfo.job,
+        this.editForm.userinfo.path,
+        this.editForm.userinfo.sex,
+        this.editForm.email
+      ).then(response => {
         // console.log(response.data)
         if (response.code !== 20000) {
           return this.$message.error(this.meta.msg)
@@ -632,7 +687,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .avatar-uploader .el-upload {
+.avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   // border: 1px solid red;
   border-radius: 6px;
@@ -662,17 +717,16 @@ export default {
   // border: 1px solid red;
   // margin-left: 50%;
 }
-.imageUrl{
+.imageUrl {
   display: flex;
   justify-content: center;
   align-items: center;
   // border: 1px solid red;
 }
-.avatar-uploader{
+.avatar-uploader {
   width: 182px;
   height: 182px;
   // border: 1px solid red;
   margin-left: -15%;
 }
 </style>
-
