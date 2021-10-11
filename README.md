@@ -196,6 +196,12 @@ This will automatically open http://localhost:9527
 npm run build:stage
 
 # build for production environment
+# 进入vue-element-admin-master\src\main.js
+# 注释
+#  if (process.env.NODE_ENV === 'production') {
+#    const { mockXHR } = require('../mock')
+#    mockXHR()
+#  }
 npm run build:prod
 ```
 
