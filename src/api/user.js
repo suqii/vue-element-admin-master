@@ -23,10 +23,18 @@ export function rsetUserP(user_id) {
     params: { user_id }
   })
 }
-// 获取用户列表
+// 获取所有用户列表
 export function userList(query) {
   return request({
     url: '/vue-element-admin/user/userList',
+    method: 'get',
+    params: query
+  })
+}
+// 获取新增用户列表
+export function newUser(query) {
+  return request({
+    url: '/vue-element-admin/newUser',
     method: 'get',
     params: query
   })
