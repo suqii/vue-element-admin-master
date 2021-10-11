@@ -111,7 +111,7 @@ export default {
       //   console.log(response.data)
       // })
       newUser().then(response => {
-        console.log(response.data.newUserList)
+        // console.log(response.data.newUserList)
         this.list = response.data.newUserList.slice(0, 8)
         this.list.forEach((row) => {
           // console.log(row.status)
