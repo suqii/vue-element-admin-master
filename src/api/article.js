@@ -56,6 +56,30 @@ export function getTopicClassList(query) {
     params: query
   })
 }
+// 新增分类
+export function topicClassAdd(classname, status) {
+  return request({
+    url: '/vue-element-admin/topic/topicClassAdd',
+    method: 'post',
+    params: { classname, status }
+  })
+}
+// 编辑分类
+export function topicClassEdit(classname, topic_class_id) {
+  return request({
+    url: '/vue-element-admin/topic/topicClassEdit',
+    method: 'post',
+    params: { classname, topic_class_id }
+  })
+}
+// 删除分类
+export function topicClassDelete(topic_class_id) {
+  return request({
+    url: '/vue-element-admin/topic/topicClassDelete',
+    method: 'post',
+    params: { topic_class_id }
+  })
+}
 // 获取分类下所有话题
 export function getTopicList(query) {
   return request({
