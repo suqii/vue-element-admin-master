@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="wrapper">
-      <p>权限列表</p>
+      <p>分类管理</p>
       <el-button
         type="primary"
         size="medium"

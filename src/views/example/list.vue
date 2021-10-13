@@ -1,7 +1,22 @@
 <template>
   <div class="app-container">
-    <div>
-      当前分类：
+    <div class="wrapper">
+      <div class="select">
+        <p style="padding-right:10px;">按分类选择话题 </p>
+        <el-select v-model="value" placeholder="请选择" @change="selectChanged">
+          <el-option
+            v-for="(item,index) in options"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+      <el-button
+        type="primary"
+        size="medium"
+        @click="addTopic"
+      >新增话题</el-button>
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="ID" width="80">
@@ -56,13 +71,16 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="120">
+      <el-table-column align="center" label="Actions" width="240">
         <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">
-              Edit
-            </el-button>
-          </router-link>
+
+          <el-button type="primary" size="small" icon="el-icon-edit">
+            编辑
+          </el-button>
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="topicDelete(scope.row.id)">
+            删除
+          </el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -73,7 +91,7 @@
 
 <script>
 // import { fetchList, getTopicList } from '@/api/article'
-import { getTopicList } from '@/api/article'
+import { getTopicClassList, getTopicList, topicDelete } from '@/api/article'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -94,6 +112,8 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
+      options: [],
+      value: '',
       listQuery: {
         page: 1,
         limit: 20
@@ -101,22 +121,62 @@ export default {
     }
   },
   created() {
-    this.getList()
+    this.getList(1)
+    this.getTopicClassList()
   },
   methods: {
-    getList() {
+    // 选中改变
+    selectChanged() {
+      this.getList(this.value)
+    },
+    // 获取所有分类
+    getTopicClassList() {
+      const _this = this
+      var optionItem = {}
+      getTopicClassList().then(response => {
+        response.data.list.forEach(row => {
+          optionItem = {}
+          optionItem.value = row.id
+          optionItem.label = row.classname
+          _this.options.push(optionItem)
+        })
+        _this.value = _this.options[0].value
+      })
+    },
+    // 话题删除
+    async topicDelete(id) {
+      // 弹框提示用户是否删除
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该分类, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      // 发送删除请求
+      topicDelete(id).then(res => {
+        if (res.code !== 20000) {
+          this.$message.error('删除失败')
+        }
+        this.$message.success('删除成功')
+        this.getList()
+      })
+    },
+    // 话题添加
+    addTopic() {
+      console.log('添加话题')
+    },
+    // 获取数据
+    getList(id) {
       this.listLoading = true
-      // fetchList(this.listQuery).then(response => {
-      //   this.list = response.data.items
-      //   this.total = response.data.total
-      //   this.listLoading = false
-      // })
-      getTopicList(1).then(response => {
+      getTopicList(id).then(response => {
         this.list = response.data.list
-        // this.list.forEach((row) => {
-        //   row.createAt = this.transitionTime(row.create_time)
-        // })
-        console.log(this.list)
+        // console.log(this.list)
         this.total = response.data.list.length
         this.listLoading = false
       })
@@ -133,5 +193,17 @@ export default {
   position: absolute;
   right: 15px;
   top: 10px;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  align-items: center;
+}
+.select{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

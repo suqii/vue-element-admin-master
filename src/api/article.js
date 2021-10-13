@@ -96,3 +96,19 @@ export function topicAdd(topic_id, topic_class_id, type, title, titlepic, desc) 
     params: { topic_id, topic_class_id, type, title, titlepic, desc }
   })
 }
+// 删除话题
+export function topicDelete(topic_id) {
+  return request({
+    url: '/vue-element-admin/topic/topicDelete',
+    method: 'post',
+    params: { topic_id }
+  })
+}
+// 编辑话题
+export function topicEdit(topic_id) {
+  return request({
+    url: '/vue-element-admin/topic/topicEdit',
+    method: 'post',
+    params: { topic_id }
+  })
+}
