@@ -179,6 +179,7 @@ export default {
   },
   methods: {
     fetchData(id) {
+      console.log(id)
       fetchArticle(id).then(response => {
         this.postForm = response.data
 

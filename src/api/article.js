@@ -48,3 +48,27 @@ export function updateArticle(data) {
     data
   })
 }
+// 获取所有分类
+export function getTopicClassList(query) {
+  return request({
+    url: '/topicclass',
+    method: 'get',
+    params: query
+  })
+}
+// 获取分类下所有话题
+export function getTopicList(query) {
+  return request({
+    url: '/topicclass/' + query + '/topic/1',
+    method: 'get',
+    params: query
+  })
+}
+// 新增话题
+export function topicAdd(topic_id, topic_class_id, type, title, titlepic, desc) {
+  return request({
+    url: '/vue-element-admin/topic/topicAdd',
+    method: 'post',
+    params: { topic_id, topic_class_id, type, title, titlepic, desc }
+  })
+}

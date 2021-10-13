@@ -201,6 +201,12 @@ export const asyncRoutes = [
     },
     children: [
       {
+        path: 'topicClass',
+        component: () => import('@/views/example/topicClass'),
+        name: 'TopicClass',
+        meta: { title: '分类管理', icon: 'edit' }
+      },
+      {
         path: 'create',
         component: () => import('@/views/example/create'),
         name: 'CreateArticle',

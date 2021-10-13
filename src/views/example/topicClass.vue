@@ -1,8 +1,5 @@
 <template>
   <div class="app-container">
-    <div>
-      当前分类：
-    </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
@@ -10,49 +7,16 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="150px" label="话题">
-        <template slot-scope="{row}">
-          <router-link :to="'/example/edit/'+row.id" class="link-type">
-            <span>{{ row.title }}</span>
-          </router-link>
+      <el-table-column align="center" label="名称">
+        <template slot-scope="scope">
+          <span>{{ scope.row.classname }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="封面">
-        <template slot-scope="scope">
-          <div
-            :style="
-              'height:60px; width:60px;border-radius: 8px; border:1px gray solid;background: url(' +
-                (scope.row.titlepic == null
-                  ? scope.row.titlepic
-                  : scope.row.titlepic.replace(/\\/g, '/')) +
-                ') no-repeat; background-size:cover;'
-            "
-          /></template>
-      </el-table-column>
+
       <el-table-column width="180px" align="center" label="创建日期">
         <template slot-scope="scope">
           <span>{{ scope.row.create_time | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
           <!-- <span>{{ scope.row.create_time }}</span> -->
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="描述">
-        <template slot-scope="scope">
-          <span>{{ scope.row.desc }}</span>
-        </template>
-      </el-table-column>
-
-      <!-- <el-table-column width="100px" label="Importance">
-        <template slot-scope="scope">
-          <svg-icon v-for="n in +scope.row.importance" :key="n" icon-class="star" class="meta-item__icon" />
-        </template>
-      </el-table-column> -->
-
-      <el-table-column class-name="status-col" label="Status" width="110">
-        <template slot-scope="{row}">
-          <el-tag :type="row.status | statusFilter">
-            {{ row.status }}
-          </el-tag>
         </template>
       </el-table-column>
 
@@ -72,8 +36,7 @@
 </template>
 
 <script>
-// import { fetchList, getTopicList } from '@/api/article'
-import { getTopicList } from '@/api/article'
+import { getTopicClassList } from '@/api/article'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -106,19 +69,11 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      // fetchList(this.listQuery).then(response => {
-      //   this.list = response.data.items
-      //   this.total = response.data.total
-      //   this.listLoading = false
-      // })
-      getTopicList(1).then(response => {
+      getTopicClassList().then(response => {
         this.list = response.data.list
-        // this.list.forEach((row) => {
-        //   row.createAt = this.transitionTime(row.create_time)
-        // })
-        console.log(this.list)
         this.total = response.data.list.length
         this.listLoading = false
+        console.log(this.list)
       })
     }
   }
