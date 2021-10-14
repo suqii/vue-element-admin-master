@@ -183,6 +183,18 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/alioss',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/alioss/index'),
+        name: 'Alioss',
+        meta: { title: 'Alioss', icon: 'tree', noCache: true }
+      }
+    ]
+  },
 
   /** when your routing map is too long, you can split it into small modules **/
   componentsRouter,
