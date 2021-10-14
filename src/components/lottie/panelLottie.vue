@@ -102,7 +102,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: 108px;
-  width: 400px;
+  // width: 300px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 12px;
