@@ -112,3 +112,11 @@ export function topicEdit(topic_id, title, titlepic, desc) {
     params: { topic_id, title, titlepic, desc }
   })
 }
+// 编辑话题
+export function getUserPostList(topic_id) {
+  return request({
+    url: '/user/' + topic_id + '/post/1',
+    method: 'get',
+    params: { topic_id }
+  })
+}

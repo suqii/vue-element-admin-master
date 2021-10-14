@@ -1,7 +1,7 @@
 <template>
   <div class="user-activity">
     <div
-      v-for="(item, index) in data"
+      v-for="(item, index) in data1"
       :key="index"
       class="post"
     >
@@ -15,20 +15,20 @@
         {{ item.content }}
       </p>
       <!-- 图片 -->
-      <div v-if="item.carouselImages" class="user-images">
+      <div v-if="item.carouselImages.length " class="user-images">
         <el-carousel :interval="6000" type="card" height="220px">
-          <el-carousel-item v-for="it in item.carouselImages" :key="it">
-            <img :src="it+carouselPrefix" class="image">
+          <!-- eslint-disable-next-line vue/no-template-shadow -->
+          <el-carousel-item v-for="(it, index) in item.carouselImages" :key="index">
+            <!-- <img :src="it+carouselPrefix" class="image"> -->
+            <!-- {{ it }} -->
+            <img :src="(it.url)" class="image">
           </el-carousel-item>
         </el-carousel>
       </div>
       <!-- 图标 -->
       <ul class="list-inline">
-        <li><span class="link-black text-sm"><i class="el-icon-share" /> Share</span></li>
-        <li>
-          <span class="link-black text-sm">
-            <svg-icon icon-class="like" /> Like</span>
-        </li>
+        <li><span class="link-black text-sm"><i class="el-icon-share" /> 分享 {{ item.share_num }}</span></li>
+        <li><span class="link-black text-sm"><i class="el-icon-star-off" /> 喜欢 {{ item.like_num }}</span></li>
       </ul>
     </div>
   </div>
@@ -37,11 +37,14 @@
 <script>
 const avatarPrefix = '?imageView2/1/w/80/h/80'
 const carouselPrefix = '?imageView2/2/h/440'
-
+import { getUserPostList } from '@/api/article'
 export default {
   data() {
     return {
       // 动态数据
+      data1: [],
+      dataParm: {},
+      imagesList: [],
       data: [
         {
           username: '用户名',
@@ -65,6 +68,32 @@ export default {
       ],
       avatarPrefix,
       carouselPrefix
+    }
+  },
+  created() {
+    this.getUserPostList(402)
+  },
+  methods: {
+    // 获取指定用户动态列表
+    getUserPostList(user_id) {
+      getUserPostList(user_id).then(response => {
+        console.log(response.data.data)
+        response.data.data.forEach(row => {
+          this.dataParm = {}
+          // this.imagesList = {}
+          this.dataParm.username = row.user.username
+          this.dataParm.dislike_num = row.cai_count
+          this.dataParm.share_num = row.sharenum
+          this.dataParm.comment_num = row.comment_count
+          this.dataParm.like_num = row.ding_count
+          this.dataParm.img = row.user.userpic
+          this.dataParm.time = row.create_time
+          this.dataParm.content = row.content
+          this.dataParm.carouselImages = row.images
+          this.data1.push(this.dataParm)
+        })
+        console.log(this.data1)
+      })
     }
   }
 }
