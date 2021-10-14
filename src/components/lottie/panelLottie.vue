@@ -120,7 +120,7 @@ export default {
     // border: 1px red solid;
     margin-left:2em ;
     background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+    // box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.05);
   }
   .icon-people {
