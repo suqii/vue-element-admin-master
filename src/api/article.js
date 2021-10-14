@@ -89,11 +89,11 @@ export function getTopicList(query) {
   })
 }
 // 新增话题
-export function topicAdd(topic_id, topic_class_id, type, title, titlepic, desc) {
+export function topicAdd(desc, title, titlepic, topic_class_id, type) {
   return request({
     url: '/vue-element-admin/topic/topicAdd',
     method: 'post',
-    params: { topic_id, topic_class_id, type, title, titlepic, desc }
+    params: { desc, title, titlepic, topic_class_id, type }
   })
 }
 // 删除话题
@@ -105,10 +105,10 @@ export function topicDelete(topic_id) {
   })
 }
 // 编辑话题
-export function topicEdit(topic_id) {
+export function topicEdit(topic_id, title, titlepic, desc) {
   return request({
     url: '/vue-element-admin/topic/topicEdit',
     method: 'post',
-    params: { topic_id }
+    params: { topic_id, title, titlepic, desc }
   })
 }

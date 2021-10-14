@@ -15,9 +15,81 @@
       <el-button
         type="primary"
         size="medium"
-        @click="addTopic"
+        @click="addDialogVisible = true;addForm.topic_class_id = value;"
       >新增话题</el-button>
     </div>
+    <!--添加用户的对话框-->
+    <el-dialog
+      title="添加用户"
+      :visible.sync="addDialogVisible"
+      width="50%"
+      @close="addDialogClosed"
+    >
+      <!--主体区域-->
+      <el-form
+        ref="addFormRef"
+        :model="addForm"
+        label-width="70px"
+      >
+        <el-form-item label="分类" prop="topic_class_id">
+          <el-select v-model="addForm.topic_class_id" placeholder="请选择">
+            <el-option
+              v-for="(item,index) in options"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="话题" prop="title">
+          <el-input v-model="addForm.title" />
+        </el-form-item>
+        <el-form-item label="封面" prop="titlepic">
+          <el-input v-model="addForm.titlepic" />
+        </el-form-item>
+        <el-form-item label="描述" prop="desc">
+          <el-input v-model="addForm.desc" />
+        </el-form-item>
+      </el-form>
+      <!--底部区域-->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!--修改话题对话框-->
+    <el-dialog
+      title="修改用户"
+      :visible.sync="editDialogVisible"
+      width="50%"
+      @close="editDialogClosed"
+    >
+      <el-form
+        ref="editFormRef"
+        :model="editForm"
+        label-width="70px"
+      >
+        <el-form-item label="" class="imageUrl">
+          <img :src="editForm.titlepic" class="avatar">
+        </el-form-item>
+        <el-form-item label="话题" prop="title">
+          <el-input v-model="editForm.title" />
+        </el-form-item>
+        <el-form-item label="封面" prop="titlepic">
+          <el-input v-model="editForm.titlepic" />
+        </el-form-item>
+        <el-form-item label="描述" prop="desc">
+          <el-input v-model="editForm.desc" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="editUserInfo(editForm)"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
@@ -74,7 +146,7 @@
       <el-table-column align="center" label="Actions" width="240">
         <template slot-scope="scope">
 
-          <el-button type="primary" size="small" icon="el-icon-edit">
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="showEditDialog(scope.row)">
             编辑
           </el-button>
           <el-button type="danger" size="small" icon="el-icon-delete" @click="topicDelete(scope.row.id)">
@@ -91,7 +163,7 @@
 
 <script>
 // import { fetchList, getTopicList } from '@/api/article'
-import { getTopicClassList, getTopicList, topicDelete } from '@/api/article'
+import { getTopicClassList, getTopicList, topicDelete, topicAdd, topicEdit } from '@/api/article'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -110,8 +182,14 @@ export default {
   data() {
     return {
       list: null,
+      // 添加用户的表单数据
+      addForm: {},
+      editDialogVisible: false,
+      editForm: {},
       total: 0,
       listLoading: true,
+      // 控制添加用户对话框显示与隐藏
+      addDialogVisible: false,
       options: [],
       value: '',
       listQuery: {
@@ -123,8 +201,39 @@ export default {
   created() {
     this.getList(1)
     this.getTopicClassList()
+    this.addForm.titlepic = 'http://suqiqi.oss-cn-beijing.aliyuncs.com/freeFind/5.png'
   },
   methods: {
+    // 编辑话题
+    showEditDialog(row) {
+      // console.log(row.desc)
+      this.editForm.desc = row.desc
+      this.editForm.titlepic = row.titlepic
+      this.editForm.title = row.title
+      this.editDialogVisible = true
+    },
+    // 提交编辑话题
+    editUserInfo(row) {
+      // console.log(row)
+      topicEdit(row.id, row.title, row.titlepic, row.desc).then(response => {
+        if (response.code !== 20000) {
+          this.$message.error('修改失败')
+        }
+        this.editDialogVisible = false
+        this.$message.success('修改成功')
+        this.getList(this.value)
+      })
+    },
+    // 监听添加用户对话框的关闭事件
+    async addDialogClosed() {
+      // 重置表单
+      this.$refs.addFormRef.resetFields()
+    },
+    // 监听修改用户对话框的关闭事件
+    editDialogClosed() {
+      this.editForm = {}
+      this.$refs.editFormRef.resetFields()
+    },
     // 选中改变
     selectChanged() {
       this.getList(this.value)
@@ -164,12 +273,20 @@ export default {
           this.$message.error('删除失败')
         }
         this.$message.success('删除成功')
-        this.getList()
+        this.getList(this.value)
       })
     },
     // 话题添加
-    addTopic() {
-      console.log('添加话题')
+    addUser() {
+      // console.log(this.addForm)
+      topicAdd(this.addForm.desc, this.addForm.title, this.addForm.titlepic, this.addForm.topic_class_id, 1).then(response => {
+        if (response.code !== 20000) {
+          this.$message.error('添加失败')
+        }
+        this.addDialogVisible = false
+        this.$message.success('添加成功')
+        this.getList(this.value)
+      })
     },
     // 获取数据
     getList(id) {
@@ -205,5 +322,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.imageUrl img{
+  /* background: #000; */
+  /* text-align: center; */
+  height: 200px;
+  margin-right: 60px;
+}
+.imageUrl{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -208,7 +208,7 @@ export const asyncRoutes = [
     redirect: '/example/list',
     name: 'Example',
     meta: {
-      title: '综合实例',
+      title: '文章管理',
       icon: 'el-icon-s-help'
     },
     children: [
@@ -235,7 +235,7 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/views/example/list'),
         name: 'ArticleList',
-        meta: { title: '文章列表', icon: 'list' }
+        meta: { title: '话题管理', icon: 'list' }
       }
     ]
   },
