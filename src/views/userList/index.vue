@@ -69,6 +69,13 @@
             />
           </template>
         </el-table-column>
+        <el-table-column label="Title">
+          <template slot-scope="{row}">
+            <router-link :to="'/userList/userProfile/'+row.id" class="link-type">
+              详情
+            </router-link>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
             <!-- 修改按钮 -->

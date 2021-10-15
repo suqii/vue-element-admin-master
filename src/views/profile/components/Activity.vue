@@ -28,7 +28,9 @@
       <!-- 图标 -->
       <ul class="list-inline">
         <li><span class="link-black text-sm"><i class="el-icon-share" /> 分享 {{ item.share_num }}</span></li>
-        <li><span class="link-black text-sm"><i class="el-icon-star-off" /> 喜欢 {{ item.like_num }}</span></li>
+        <li><span class="link-black text-sm"><i class="el-icon-star-on" /> 喜欢 {{ item.like_num }}</span></li>
+        <li><span class="link-black text-sm"><i class="el-icon-star-off" /> 踩 {{ item.dislike_num }}</span></li>
+        <li><span class="link-black text-sm"><i class="el-icon-chat-line-square" /> 评论 {{ item.comment_num }}</span></li>
       </ul>
     </div>
   </div>
