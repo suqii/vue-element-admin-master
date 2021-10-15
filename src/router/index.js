@@ -130,77 +130,17 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: '权限测试页',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: '页面权限',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: '指令权限'
-          // if do not set roles, means: this page does not require permission
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
-        meta: {
-          title: '角色权限',
-          roles: ['admin']
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/icon',
+    path: '/tab',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/icons/index'),
-        name: 'Icons',
-        meta: { title: '图标', icon: 'icon', noCache: true }
+        component: () => import('@/views/tab/index'),
+        name: 'Tab',
+        meta: { title: '话题列表', icon: 'tab' }
       }
     ]
   },
-  {
-    path: '/alioss',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/alioss/index'),
-        name: 'Alioss',
-        meta: { title: 'Alioss', icon: 'tree', noCache: true }
-      }
-    ]
-  },
-
-  /** when your routing map is too long, you can split it into small modules **/
-  componentsRouter,
-  chartsRouter,
-  nestedRouter,
-  tableRouter,
 
   {
     path: '/example',
@@ -241,14 +181,96 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/tab',
+    path: '/userList',
+    component: Layout,
+    redirect: '/userList/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/userList/index'),
+        name: 'UserList',
+        meta: { title: '用户管理', icon: 'peoples' }
+      },
+      {
+        path: 'userProfile/:id(\\d+)',
+        component: () => import('@/views/userList/userProfile'),
+        name: 'EditArticle',
+        meta: { title: 'editArticle', noCache: true, activeMenu: '/userList/index' },
+        hidden: true
+      }
+    ]
+  },
+
+  {
+    path: '/alioss',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/tab/index'),
-        name: 'Tab',
-        meta: { title: 'Tab', icon: 'tab' }
+        component: () => import('@/views/alioss/index'),
+        name: 'Alioss',
+        meta: { title: 'Alioss', icon: 'tree', noCache: true }
+      }
+    ]
+  },
+
+  {
+    path: '/icon',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/icons/index'),
+        name: 'Icons',
+        meta: { title: '图标', icon: 'icon', noCache: true }
+      }
+    ]
+  },
+
+  /** when your routing map is too long, you can split it into small modules **/
+  componentsRouter,
+  chartsRouter,
+  nestedRouter,
+  tableRouter,
+
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'Permission',
+    meta: {
+      title: '权限测试页',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/permission/page'),
+        name: 'PagePermission',
+        meta: {
+          title: '页面权限',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'directive',
+        component: () => import('@/views/permission/directive'),
+        name: 'DirectivePermission',
+        meta: {
+          title: '指令权限'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/permission/role'),
+        name: 'RolePermission',
+        meta: {
+          title: '角色权限',
+          roles: ['admin']
+        }
       }
     ]
   },
@@ -345,26 +367,6 @@ export const asyncRoutes = [
     ]
   },
 
-  {
-    path: '/userList',
-    component: Layout,
-    redirect: '/userList/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/userList/index'),
-        name: 'UserList',
-        meta: { title: '用户管理', icon: 'peoples' }
-      },
-      {
-        path: 'userProfile/:id(\\d+)',
-        component: () => import('@/views/userList/userProfile'),
-        name: 'EditArticle',
-        meta: { title: 'editArticle', noCache: true, activeMenu: '/userList/index' },
-        hidden: true
-      }
-    ]
-  },
   {
     path: '/userList/download',
     component: () => import('@/views/userList/download'),

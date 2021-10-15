@@ -120,3 +120,11 @@ export function getUserPostList(topic_id) {
     params: { topic_id }
   })
 }
+// 获取指定文章分类下的文章
+export function getPostClassList(topic_id) {
+  return request({
+    url: '/postclass/' + topic_id + '/post/1',
+    method: 'get',
+    params: { topic_id }
+  })
+}
