@@ -60,7 +60,12 @@
         <el-table-column label="用户名" prop="username" />
         <el-table-column label="邮箱" prop="email" />
         <el-table-column label="电话" prop="phone" />
-        <el-table-column label="注册时间" prop="create_time" />
+        <!-- <el-table-column label="注册时间" prop="create_time" /> -->
+        <el-table-column label="注册时间">
+          <template slot-scope="scope">
+            {{ scope.row.create_time | parseTime('{y}-{m}-{d} {h}:{i}') }}
+          </template>
+        </el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             <el-switch
@@ -69,7 +74,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column label="Title">
+        <el-table-column label="详情">
           <template slot-scope="{row}">
             <router-link :to="'/userList/userProfile/'+row.id" class="link-type">
               详情
@@ -393,66 +398,16 @@ export default {
         // console.log(response.data.list)
         this.userList = response.data.list.reverse()
         //  时间转换
-        this.userList.forEach(row => {
-          if (row.create_time) {
-            row.create_time = this.transitionTime(row.create_time)
-          }
-        })
+        // this.userList.forEach(row => {
+        //   if (row.create_time) {
+        //     row.create_time = this.transitionTime(row.create_time)
+        //   }
+        // })
         this.total = response.data.list.length
         // console.log(this.total)
       })
     },
-    // 时间戳转换
-    transitionTime(time) {
-      // 时间戳转换
-      // 获得当前运行环境时间
-      let data
-      // eslint-disable-next-line eqeqeq
-      if (time.toString().length != 13) {
-        data = time * 1000
-      } else {
-        data = time
-      }
-      const nowData = new Date(data)
-      // 算得时区
-      var time_zone = -nowData.getTimezoneOffset() / 60
-      if (time_zone < 0) {
-        // 西区 西区应该用时区绝对值加京八区
-        time_zone = Math.abs(time_zone) + 8
-        data = data + time_zone * 60 * 60 * 1000
-      } else {
-        time_zone -= 8
-        data = data - time_zone * 60 * 60 * 1000
-      }
-      const now = new Date(data)
-      const year = now.getFullYear() // 年
-      const month = now.getMonth() + 1 // 月
-      const day = now.getDate() // 日
-      let clock = year + '-'
-      if (month < 10) {
-        clock += '0'
-      }
-      clock += month + '-'
-      if (day < 10) {
-        clock += '0'
-      }
-      clock += day + ' '
-      // eslint-disable-next-line eqeqeq
-      if (time.toString().length == 13) {
-        const hh = now.getHours() // 时
-        const mm = now.getMinutes() // 分
-        const ss = now.getSeconds() // 秒
-        if (hh < 10) {
-          clock += '0'
-        }
-        clock += hh + ':'
-        if (mm < 10) clock += '0'
-        clock += mm + ':'
-        if (ss < 10) clock += '0'
-        clock += ss
-      }
-      return clock
-    },
+
     // element-china-area-data转文字
     handleAreaChange(value) {
       if (value[1] != null && value[2] != null) {
