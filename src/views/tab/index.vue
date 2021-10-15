@@ -62,12 +62,14 @@
               <div
                 v-for="(item, index) in data1"
                 :key="index"
+                v-loading="listLoading"
                 class="post"
               >
                 <div class="user-block">
                   <img class="img-circle" :src="item.img">
                   <span class="username">{{ item.username }}</span>
-                  <span class="description">{{ item.time }}</span>
+                  <span class="description">{{ item.time | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+                  <!-- <span>{{ scope.row.create_time | parseTime('{y}-{m}-{d} {h}:{i}') }}</span> -->
                 </div>
                 <!-- 文案 -->
                 <p v-if="item.content">
@@ -117,6 +119,7 @@ export default {
       list: null,
       options: [],
       selectId: null,
+      listLoading: true,
       total: 0,
       value: '',
       user: {
@@ -131,9 +134,9 @@ export default {
   computed: {
   },
   created() {
-    const id = 402
+    // const id = 402
     // console.log(id)
-    this.getSelectUinfo(id)
+    // this.getSelectUinfo(id)
     this.getSelectUNews(1)
     this.getTopicClassList()
   },
@@ -168,6 +171,7 @@ export default {
     },
     // 获取动态
     getSelectUNews(id) {
+      this.listLoading = true
       getPostClassList(id).then(response => {
         // console.log(response.data.data)
         response.data.data.forEach(row => {
@@ -189,6 +193,7 @@ export default {
           this.dataParm.carouselImages = row.images
           this.data1.push(this.dataParm)
         })
+        this.listLoading = false
         // console.log(this.data1)
       })
     }
