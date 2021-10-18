@@ -39,8 +39,8 @@ module.exports = {
     // <-------------走自定义接口（开始）---------------->
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://api.test.com/api/v1',
-        // target: 'https://bt.wktest.cn/api/v1',
+        // target: 'http://api.test.com/api/v1',
+        target: 'https://bt.wktest.cn/api/v1',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

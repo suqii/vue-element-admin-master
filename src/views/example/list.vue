@@ -73,13 +73,13 @@
           <img :src="editForm.titlepic" class="avatar">
         </el-form-item>
         <el-form-item label="话题" prop="title">
-          <el-input v-model="editForm.title" />
+          <el-input v-model="editFormTitle" />
         </el-form-item>
         <el-form-item label="封面" prop="titlepic">
-          <el-input v-model="editForm.titlepic" />
+          <el-input v-model="editFormTitlePic" />
         </el-form-item>
         <el-form-item label="描述" prop="desc">
-          <el-input v-model="editForm.desc" />
+          <el-input v-model="editFormDesc" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -186,6 +186,10 @@ export default {
       addForm: {},
       editDialogVisible: false,
       editForm: {},
+      editFormDesc: null,
+      editFormTitle: null,
+      editFormTitlePic: null,
+      editFormId: null,
       total: 0,
       listLoading: true,
       // 控制添加用户对话框显示与隐藏
@@ -207,15 +211,17 @@ export default {
     // 编辑话题
     showEditDialog(row) {
       // console.log(row.desc)
-      this.editForm.desc = row.desc
       this.editForm.titlepic = row.titlepic
-      this.editForm.title = row.title
+      this.editFormDesc = row.desc
+      this.editFormTitlePic = row.titlepic
+      this.editFormTitle = row.title
+      this.editFormId = row.id
       this.editDialogVisible = true
     },
     // 提交编辑话题
     editUserInfo(row) {
       // console.log(row)
-      topicEdit(row.id, row.title, row.titlepic, row.desc).then(response => {
+      topicEdit(this.editFormId, this.editFormTitle, this.editFormTitlePic, this.editFormDesc).then(response => {
         if (response.code !== 20000) {
           this.$message.error('修改失败')
         }

@@ -65,11 +65,11 @@ export function topicClassAdd(classname, status) {
   })
 }
 // 编辑分类
-export function topicClassEdit(classname, topic_class_id) {
+export function topicClassEdit(classname, classpic, topic_class_id) {
   return request({
     url: '/vue-element-admin/topic/topicClassEdit',
     method: 'post',
-    params: { classname, topic_class_id }
+    params: { classname, classpic, topic_class_id }
   })
 }
 // 删除分类

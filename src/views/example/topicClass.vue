@@ -21,6 +21,19 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="封面">
+        <template slot-scope="scope">
+          <div
+            :style="
+              'height:60px; width:60px;border-radius: 8px; border:1px gray solid;background: url(' +
+                (scope.row.classpic == null
+                  ? scope.row.classpic
+                  : scope.row.classpic.replace(/\\/g, '/')) +
+                ') no-repeat; background-size:cover;'
+            "
+          /></template>
+      </el-table-column>
+
       <el-table-column width="180px" align="center" label="创建日期">
         <template slot-scope="scope">
           <span>{{ scope.row.create_time | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
@@ -81,8 +94,14 @@
         label-width="100px"
         class="demo-ruleForm"
       >
+        <el-form-item label="" class="imageUrl">
+          <img :src="jurisdictionEditor.classpic" class="avatar">
+        </el-form-item>
         <el-form-item label="分类名称" prop="name">
-          <el-input v-model="jurisdictionEditor.classname" />
+          <el-input v-model="editorClassName" />
+        </el-form-item>
+        <el-form-item label="封面URL" prop="name">
+          <el-input v-model="editorClassPic" />
         </el-form-item>
         <el-form-item label="分类ID" prop="idCode">
           <el-input v-model="jurisdictionEditor.id" disabled />
@@ -123,6 +142,9 @@ export default {
       dialogVisible: false,
       dialogjurisdiction: false,
       jurisdictionAdd: {},
+      editorClassName: null,
+      editorClassPic: null,
+      editorClassId: null,
       jurisdictionID: '',
       jurisdictionName: '',
       jurisdictionEditor: {},
@@ -141,14 +163,21 @@ export default {
   methods: {
     handleEdit(row) {
       this.jurisdictionEditor = row
+      this.editorClassName = row.classname
+      this.editorClassPic = row.classpic
+      this.editorClassId = row.id
       this.dialogVisible = true
+      console.log(this.jurisdictionEditor)
     },
     // 分类编辑
     editoraffirm(formName) {
       this.listLoading = true
-      topicClassEdit(this.jurisdictionEditor.classname, this.jurisdictionEditor.id).then(response => {
+      console.log(this.editorClassName)
+      console.log(this.editorClassId)
+      topicClassEdit(this.editorClassName, this.editorClassPic, this.editorClassId).then(response => {
         // eslint-disable-next-line eqeqeq
         if (response.code == 20000) {
+          this.getList()
           this.$message.success('更新成功')
           this.listLoading = false
           this.dialogVisible = false
@@ -223,5 +252,16 @@ export default {
   padding: 10px 20px;
   box-sizing: border-box;
   align-items: center;
+}
+.imageUrl img{
+  /* background: #000; */
+  /* text-align: center; */
+  height: 200px;
+  margin-right: 60px;
+}
+.imageUrl{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
