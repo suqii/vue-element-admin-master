@@ -174,7 +174,7 @@ export default {
       this.listLoading = true
       getPostClassList(id).then(response => {
         // console.log(response.data.data)
-        response.data.data.forEach(row => {
+        response.data.list.forEach(row => {
           this.dataParm = {}
           // this.imagesList = {}
           if (row.user) {
