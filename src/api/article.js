@@ -128,3 +128,35 @@ export function getPostClassList(topic_id) {
     params: { topic_id }
   })
 }
+// 轮播图获取
+export function getAdsenseList(adsense_id) {
+  return request({
+    url: '/adsense/' + adsense_id + '',
+    method: 'get',
+    params: { adsense_id }
+  })
+}
+// 添加轮播图
+export function adsenseAdd(type, src) {
+  return request({
+    url: 'vue-element-admin/adsense/adsenseAdd',
+    method: 'post',
+    params: { type, src }
+  })
+}
+// 删除轮播图
+export function adsenseDelete(adsense_id) {
+  return request({
+    url: '/vue-element-admin/adsense/adsenseDelete',
+    method: 'post',
+    params: { adsense_id }
+  })
+}
+// 编辑轮播图
+export function adsenseEdit(adsense_id, src) {
+  return request({
+    url: '/vue-element-admin/adsense/adsenseEdit',
+    method: 'post',
+    params: { adsense_id, src }
+  })
+}
