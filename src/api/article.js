@@ -160,3 +160,11 @@ export function adsenseEdit(adsense_id, src) {
     params: { adsense_id, src }
   })
 }
+// 获取Git日志
+export function getGitLog(query) {
+  return request({
+    url: '/vue-element-admin/getGitLog',
+    method: 'get',
+    params: query
+  })
+}

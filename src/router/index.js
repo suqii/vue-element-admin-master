@@ -386,6 +386,18 @@ export const asyncRoutes = [
   },
 
   {
+    path: '/gitLog',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/gitLog/index'),
+        name: 'GitLog',
+        meta: { title: 'Git日志', icon: 'theme' }
+      }
+    ]
+  },
+  {
     path: '/theme',
     component: Layout,
     children: [
