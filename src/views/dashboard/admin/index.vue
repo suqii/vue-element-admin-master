@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { charData } from '@/api/test'
+import { lineChartDataGet } from '@/api/test'
 import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
@@ -75,20 +75,24 @@ import BoxCard from './components/BoxCard'
 
 const lineChartData = {
   newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
+    expectedData: [1200, 120, 161, 134, 105, 160, 165],
+    actualData: [120, 82, 91, 154, 162, 140, 145],
+    dataX: ['星期一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
   messages: {
     expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
+    actualData: [180, 160, 151, 106, 145, 150, 130],
+    dataX: ['星期一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
   purchases: {
     expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
+    actualData: [120, 90, 100, 138, 142, 130, 130],
+    dataX: ['星期一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
   shoppings: {
     expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
+    actualData: [120, 82, 91, 154, 162, 140, 130],
+    dataX: ['星期一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   }
 }
 
@@ -119,9 +123,16 @@ export default {
     },
     // eslint-disable-next-line vue/no-dupe-keys
     getLineChartData() {
-      charData().then(response => {
-        // console.log(response.data.lineChartData)
-        this.lineChartData = response.data.lineChartData.newVisitis
+      lineChartDataGet().then(response => {
+        // console.log(response.data.UserData)
+        // 新增用户
+        lineChartData.newVisitis.dataX = response.data.UserData.dataX
+        lineChartData.newVisitis.expectedData = response.data.UserData.dataMan
+        lineChartData.newVisitis.actualData = response.data.UserData.dataWoman
+        // 新增动态
+        lineChartData.messages.dataX = response.data.PostData.dataX
+        lineChartData.messages.expectedData = response.data.PostData.dataMan
+        lineChartData.messages.actualData = response.data.PostData.dataWoman
       })
     }
   }

@@ -23,7 +23,7 @@
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'文章'"
+          :title="'新增文章'"
           :number="cardNumber.messagesNumber"
         />
       </div>
@@ -52,7 +52,7 @@
           :class-name="1"
           :loop="true"
           :title="'文章2'"
-          :number="cardNumber.shoppings"
+          :number="cardNumber.shoppingsNumber"
         />
       </div>
     </el-col>
@@ -110,7 +110,7 @@
 
 <script>
 // import CountTo from 'vue-count-to'
-import { charData } from '@/api/test'
+import { lineChartDataGet } from '@/api/test'
 import panelLottie from '../../../../components/lottie/panelLottie.vue'
 export default {
   components: {
@@ -131,8 +131,8 @@ export default {
       animationDataPath9: require('../../../../assets/lottie_json/people.json'),
       animationDataPath10: require('../../../../assets/lottie_json/persons.json'),
       cardNumber: {
-        newVisitisNumber: 999,
-        messagesNumber: 999,
+        newVisitisNumber: 0,
+        messagesNumber: 0,
         purchasesNumber: 999,
         shoppingsNumber: 999
       }
@@ -146,9 +146,13 @@ export default {
       this.$emit('handleSetLineChartData', type)
     },
     getLineChartData() {
-      charData().then(response => {
-        // console.log(response.data.lineChartData)
-        this.cardNumber = response.data.cardNumber
+      lineChartDataGet().then(response => {
+        // console.log(response.data.PostData.totalNum)
+        // 新增用户数
+        this.cardNumber.newVisitisNumber = response.data.UserData.totalNum
+        // 新增文章数
+        this.cardNumber.messagesNumber = response.data.PostData.totalNum
+        // console.log(this.cardNumber)
       })
     }
   }

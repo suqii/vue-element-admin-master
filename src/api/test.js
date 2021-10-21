@@ -29,3 +29,10 @@ export function wordCloudCount() {
     method: 'get'
   })
 }
+// 首页折线图表数据
+export function lineChartDataGet() {
+  return request({
+    url: '/vue-element-admin/lineChartData',
+    method: 'get'
+  })
+}
