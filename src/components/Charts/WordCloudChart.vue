@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { charts } from '@/api/test'
+import { wordCloudCount } from '@/api/test'
 import echarts from 'echarts'
 import resize from './mixins/resize'
 import 'echarts-wordcloud/dist/echarts-wordcloud'
@@ -41,15 +41,9 @@ export default {
   data() {
     return {
       chart: null,
+      cloudCountTxt: null,
+      cloudCountParm: {},
       wordCloudData: [
-        {
-          'name': '花鸟市场',
-          'value': 1446
-        },
-        {
-          'name': '汽车',
-          'value': 928
-        }
       ]
     }
   },
@@ -66,9 +60,25 @@ export default {
   },
   methods: {
     getChartsData() {
-      charts().then(response => {
+      wordCloudCount().then(response => {
         // console.log(response.data.wordCloud)
-        this.wordCloudData = response.data.wordCloud
+        this.cloudCountTxt = response.data.wordCloud
+        var matchName = /[{](.*)[}]/
+        var matchValue = /[(](.*)[)]/
+        const cloudCountCode = this.cloudCountTxt.split(/[\r\n]+/)
+        // console.log(cloudCountCode)
+        // 接口日志
+        cloudCountCode.slice(0, cloudCountCode.length - 1).forEach((item, index) => {
+          this.cloudCountParm = {}
+          if (!item) {
+            cloudCountCode.splice(index, 1)
+          }
+          this.cloudCountParm.value = item.match(matchValue)[1]
+          this.cloudCountParm.name = item.match(matchName)[1]
+          this.wordCloudData.push(this.cloudCountParm)
+          // console.log(this.cloudCountParm)
+        })
+        // this.wordCloudData = response.data.wordCloud
         this.initChart()
       })
     },
@@ -87,11 +97,11 @@ export default {
           {
             type: 'wordCloud',
             // 用来调整词之间的距离
-            gridSize: 10,
+            gridSize: 20,
             // 用来调整字的大小范围
             // Text size range which the value in data will be mapped to.
             // Default to have minimum 12px and maximum 60px size.
-            sizeRange: [7, 50],
+            sizeRange: [20, 100],
             // Text rotation range and step in degree. Text will be rotated randomly in range [-90,                                                                             90] by rotationStep 45
             // 用来调整词的旋转方向，，[0,0]--表明着没有角度，也就是词为水平方向，须要设置角度参考注释内容
             rotationRange: [-45, 0, 45, 90],

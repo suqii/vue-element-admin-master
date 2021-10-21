@@ -22,3 +22,10 @@ export function charts() {
     method: 'get'
   })
 }
+// 词云图表
+export function wordCloudCount() {
+  return request({
+    url: '/wordCloud/wordCloudCount',
+    method: 'get'
+  })
+}
