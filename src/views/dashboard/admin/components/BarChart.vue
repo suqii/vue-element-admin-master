@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { charData } from '@/api/test'
+import { lineChartDataGet } from '@/api/test'
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getLineChartData() {
-      charData().then(response => {
+      lineChartDataGet().then(response => {
         // xAxisData数据
         this.xAxisData = response.data.barChartData.xAxisData
         // pageA数据
@@ -62,7 +62,7 @@ export default {
         // pageC数据
         this.seriesData.pageC = response.data.barChartData.seriesData.pageC
         this.initChart()
-        // console.log(response.data.barChartData)
+        console.log(response.data.barChartData)
       })
     },
     initChart() {
@@ -102,7 +102,7 @@ export default {
         ],
         series: [
           {
-            name: 'pageA',
+            name: '新增用户',
             type: 'bar',
             stack: 'vistors',
             barWidth: '60%',
@@ -110,7 +110,7 @@ export default {
             animationDuration
           },
           {
-            name: 'pageB',
+            name: '新增文章',
             type: 'bar',
             stack: 'vistors',
             barWidth: '60%',
