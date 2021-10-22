@@ -57,7 +57,7 @@ export default {
         // 注释块数据
         this.legendData = response.data.raddarChartData.legendData
         this.initChart()
-        // console.log(response.data.raddarChartData)
+        console.log(response.data.raddarChartData)
       })
     },
     initChart() {

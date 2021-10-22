@@ -63,6 +63,22 @@ export function userDelete(user_id) {
     params: { user_id }
   })
 }
+// 禁用用户
+export function changeStatusDisable(user_id) {
+  return request({
+    url: '/vue-element-admin/user/changeStatusDisable',
+    method: 'post',
+    params: { user_id }
+  })
+}
+// 解除禁用
+export function changeStatusAble(user_id) {
+  return request({
+    url: '/vue-element-admin/user/changeStatusAble',
+    method: 'post',
+    params: { user_id }
+  })
+}
 // 修改用户
 export function userEdit(user_id, job, path, sex, email) {
   return request({

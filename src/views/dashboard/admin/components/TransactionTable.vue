@@ -1,6 +1,6 @@
 <template>
   <el-table :data="list" style="width: 100%;padding-top: 15px;">
-    <el-table-column label="用户" min-width="200">
+    <el-table-column label="新增用户" min-width="200">
       <template slot-scope="scope">
         {{ scope.row.username }}
       </template>

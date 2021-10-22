@@ -207,7 +207,7 @@ export const asyncRoutes = [
         path: 'userProfile/:id(\\d+)',
         component: () => import('@/views/userList/userProfile'),
         name: 'EditArticle',
-        meta: { title: 'editArticle', noCache: true, activeMenu: '/userList/index' },
+        meta: { title: '用户详情', noCache: true, activeMenu: '/userList/index' },
         hidden: true
       }
     ]

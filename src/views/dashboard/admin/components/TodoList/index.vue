@@ -47,11 +47,11 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defalutList = [
-  { text: 'star this repository', done: false },
-  { text: 'fork this repository', done: false },
-  { text: 'follow author', done: false },
-  { text: 'vue-element-admin', done: true },
-  { text: 'vue', done: true },
+  { text: 'bug修复', done: false },
+  { text: '功能开发', done: false },
+  { text: 'api接口修复', done: false },
+  { text: 'bug1', done: true },
+  { text: 'bug2', done: true },
   { text: 'element-ui', done: true },
   { text: 'axios', done: true },
   { text: 'webpack', done: true }

@@ -66,12 +66,13 @@
             {{ scope.row.create_time | parseTime('{y}-{m}-{d} {h}:{i}') }}
           </template>
         </el-table-column>
-        <el-table-column label="状态">
+        <el-table-column label="禁用">
           <template slot-scope="scope">
             <el-switch
-              v-model="scope.row.mg_state"
+              v-model="scope.row.status"
               @change="userStateChanged(scope.row)"
             />
+            <!-- {{scope.row}} -->
           </template>
         </el-table-column>
         <el-table-column label="详情">
@@ -247,6 +248,8 @@ import {
   getuserinfo,
   userDelete,
   rsetUserP,
+  changeStatusDisable,
+  changeStatusAble,
   userEdit
 } from '@/api/user'
 import { regionDataPlus, CodeToText } from 'element-china-area-data'
@@ -398,13 +401,16 @@ export default {
         // console.log(response.data.list)
         this.userList = response.data.list.reverse()
         //  时间转换
-        // this.userList.forEach(row => {
-        //   if (row.create_time) {
-        //     row.create_time = this.transitionTime(row.create_time)
-        //   }
-        // })
+        this.userList.forEach(row => {
+          if (!row.status) {
+            row.status = true
+          } else {
+            row.status = false
+          }
+          // console.log(row.status)
+        })
         this.total = response.data.list.length
-        // console.log(this.total)
+        // console.log(this.userList)
       })
     },
 
@@ -459,7 +465,6 @@ export default {
       })
       this.$message.success('删除成功')
       this.getUserList()
-      // removeUserById
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
@@ -496,15 +501,33 @@ export default {
       this.sliceNumEnd = this.pageSize * newPage
     },
     // 修改用户状态
-    async userStateChanged(userInfo) {
-      const { data: res } = await this.$http.put(
-        `users/${userInfo.id}/state/${userInfo.mg_state}`
-      )
-      if (res.meta.status !== 200) {
-        // userInfo.mg_state = !userInfo.mg_state
-        return this.$message.error(res.meta.msg)
+    async userStateChanged(row) {
+      // console.log(row.id + row.status)
+      if (row.status) {
+        changeStatusDisable(row.id).then(res => {
+          if (res.code !== 20000) {
+            this.$message.error('禁用用户' + row.id + '失败')
+          } else {
+            this.$message({
+              message: '成功禁用',
+              type: 'warning'
+            })
+          }
+          console.log(res)
+        })
+      } else {
+        changeStatusAble(row.id).then(res => {
+          if (res.code !== 20000) {
+            this.$message.error('解除禁用用户' + row.id + '失败')
+          } else {
+            this.$message({
+              message: '成功解除禁用',
+              type: 'success'
+            })
+          }
+          console.log(res)
+        })
       }
-      this.$message.success(res.meta.msg)
     },
     // 监听添加用户对话框的关闭事件
     async addDialogClosed() {

@@ -1,25 +1,25 @@
 <template>
   <el-card class="box-card-component" style="margin-left:8px;">
     <div slot="header" class="box-card-header">
-      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
+      <img src="http://suqiqi.oss-cn-beijing.aliyuncs.com/freeFind/jinli13.jpg">
     </div>
     <div style="position:relative;">
       <pan-thumb :image="(avatar ==null? avatar: avatar.replace(/\\/g, '/'))" class="panThumb" />
       <mallki class-name="mallki-text" text="vue-element-admin" />
       <div style="padding-top:35px;" class="progress-item">
-        <span>Vue</span>
+        <span>粉丝</span>
         <el-progress :percentage="70" />
       </div>
       <div class="progress-item">
-        <span>JavaScript</span>
+        <span>评论</span>
         <el-progress :percentage="18" />
       </div>
       <div class="progress-item">
-        <span>CSS</span>
+        <span>动态</span>
         <el-progress :percentage="12" />
       </div>
       <div class="progress-item">
-        <span>ESLint</span>
+        <span>帖子</span>
         <el-progress :percentage="100" status="success" />
       </div>
     </div>

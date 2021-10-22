@@ -62,7 +62,7 @@ export default {
         // pageC数据
         this.seriesData.pageC = response.data.barChartData.seriesData.pageC
         this.initChart()
-        console.log(response.data.barChartData)
+        // console.log(response.data.barChartData)
       })
     },
     initChart() {

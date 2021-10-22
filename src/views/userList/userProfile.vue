@@ -26,7 +26,7 @@
               <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>个性签名</span></div>
               <div class="user-bio-section-body">
                 <div class="text-muted">
-                  天气会很冷吗
+                  {{ user.qm }}
                 </div>
               </div>
             </div>
@@ -35,20 +35,24 @@
               <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>技能</span></div>
               <div class="user-bio-section-body">
                 <div class="progress-item">
-                  <span>Vue</span>
-                  <el-progress :percentage="70" />
+                  <span>用户id：</span>
+                  <span>{{ user.user_id }}</span>
+                  <!-- <el-progress :percentage="12" /> -->
                 </div>
                 <div class="progress-item">
-                  <span>JavaScript</span>
-                  <el-progress :percentage="18" />
+                  <span>性别：</span>
+                  <span v-if="user.sex == '1'">女</span>
+                  <span v-if="user.sex == '2'">男</span>
                 </div>
                 <div class="progress-item">
-                  <span>Css</span>
-                  <el-progress :percentage="12" />
+                  <span>生日：</span>
+                  <span>{{ user.birthday }}</span>
+                  <!-- <el-progress :percentage="100" status="success" /> -->
                 </div>
                 <div class="progress-item">
-                  <span>ESLint</span>
-                  <el-progress :percentage="100" status="success" />
+                  <span>住址：</span>
+                  <span>{{ user.path }}</span>
+                  <!-- <el-progress :percentage="18" /> -->
                 </div>
               </div>
             </div>
@@ -130,6 +134,11 @@ export default {
         name: '',
         email: '',
         avatar: '',
+        qm: '',
+        birthday: '',
+        sex: '',
+        path: '',
+        user_id: '',
         role: ''
       },
       activeTab: 'activity'
@@ -147,8 +156,13 @@ export default {
     // 获取用户信息
     getSelectUinfo(id) {
       getuserinfo(id).then(response => {
-        // console.log(response)
+        console.log(response.data)
         this.user.name = response.data.username
+        this.user.qm = response.data.userinfo.job
+        this.user.sex = response.data.userinfo.sex
+        this.user.birthday = response.data.userinfo.birthday
+        this.user.path = response.data.userinfo.path
+        this.user.user_id = response.data.userinfo.user_id
         this.user.avatar = response.data.userpic == null ? '' : response.data.userpic
       })
     },
@@ -156,7 +170,7 @@ export default {
     getSelectUNews(id) {
       this.listLoading = true
       getUserPostList(id).then(response => {
-        // console.log(response.data.data)
+        // console.log(response.data.list)
         response.data.list.forEach(row => {
           this.dataParm = {}
           // this.imagesList = {}
