@@ -37,7 +37,7 @@
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'文章'"
+          :title="'话题'"
           :number="cardNumber.purchasesNumber"
         />
       </div>
@@ -51,7 +51,7 @@
           :autoplay="false"
           :class-name="1"
           :loop="true"
-          :title="'文章2'"
+          :title="'分类'"
           :number="cardNumber.shoppingsNumber"
         />
       </div>
@@ -133,7 +133,7 @@ export default {
       cardNumber: {
         newVisitisNumber: 0,
         messagesNumber: 0,
-        purchasesNumber: 999,
+        purchasesNumber: 0,
         shoppingsNumber: 999
       }
     }
@@ -152,6 +152,8 @@ export default {
         this.cardNumber.newVisitisNumber = response.data.UserData.totalNum
         // 新增文章数
         this.cardNumber.messagesNumber = response.data.PostData.totalNum
+        // 话题数
+        this.cardNumber.purchasesNumber = response.data.TopicData.totalNum
         // console.log(this.cardNumber)
       })
     }

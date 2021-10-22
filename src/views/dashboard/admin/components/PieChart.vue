@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { charData } from '@/api/test'
+import { lineChartDataGet } from '@/api/test'
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
@@ -75,7 +75,7 @@ export default {
       })
     },
     getLineChartData() {
-      charData().then(response => {
+      lineChartDataGet().then(response => {
         // number数据
         this.seriesData = response.data.pieChartData.seriesData
         // 注释块数据

@@ -133,6 +133,10 @@ export default {
         lineChartData.messages.dataX = response.data.PostData.dataX
         lineChartData.messages.expectedData = response.data.PostData.dataMan
         lineChartData.messages.actualData = response.data.PostData.dataWoman
+        // 新增话题
+        lineChartData.purchases.dataX = response.data.TopicData.title
+        lineChartData.purchases.expectedData = response.data.TopicData.topicNum
+        lineChartData.purchases.actualData = response.data.TopicData.topicNum
       })
     }
   }
