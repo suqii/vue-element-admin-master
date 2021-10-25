@@ -132,7 +132,7 @@
             >
               <el-button
                 type="warning"
-                icon="el-icon-setting"
+                icon="el-icon-refresh"
                 size="mini"
                 round
                 @click="restPassword(scope.row.id)"
