@@ -75,6 +75,15 @@
             <!-- {{scope.row}} -->
           </template>
         </el-table-column>
+        <el-table-column label="管理员">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.admin"
+              @change="adminSet(scope.row)"
+            />
+            <!-- {{scope.row}} -->
+          </template>
+        </el-table-column>
         <el-table-column label="详情">
           <template slot-scope="{row}">
             <router-link :to="'/userList/userProfile/'+row.id" class="link-type">
@@ -250,6 +259,8 @@ import {
   rsetUserP,
   changeStatusDisable,
   changeStatusAble,
+  adminSet,
+  adminCancel,
   userEdit
 } from '@/api/user'
 import { regionDataPlus, CodeToText } from 'element-china-area-data'
@@ -407,7 +418,12 @@ export default {
           } else {
             row.status = false
           }
-          // console.log(row.status)
+          if (row.admin) {
+            row.admin = true
+          } else {
+            row.admin = false
+          }
+          // console.log(row.admin)
         })
         this.total = response.data.list.length
         // console.log(this.userList)
@@ -500,7 +516,7 @@ export default {
       this.sliceNumStart = this.pageSize * (newPage - 1)
       this.sliceNumEnd = this.pageSize * newPage
     },
-    // 修改用户状态
+    // 修改用户禁用状态
     async userStateChanged(row) {
       // console.log(row.id + row.status)
       if (row.status) {
@@ -522,6 +538,35 @@ export default {
           } else {
             this.$message({
               message: '成功解除禁用',
+              type: 'success'
+            })
+          }
+          console.log(res)
+        })
+      }
+    },
+    // 修改用户管理员状态
+    async adminSet(row) {
+      // console.log(row.id + row.status)
+      if (row.admin) {
+        adminSet(row.id).then(res => {
+          if (res.code !== 20000) {
+            this.$message.error('设置管理员身份' + row.id + '失败')
+          } else {
+            this.$message({
+              message: '成功将此用户设置为管理员',
+              type: 'warning'
+            })
+          }
+          console.log(res)
+        })
+      } else {
+        adminCancel(row.id).then(res => {
+          if (res.code !== 20000) {
+            this.$message.error('解除管理员身份' + row.id + '失败')
+          } else {
+            this.$message({
+              message: '成功解除该管理员身份',
               type: 'success'
             })
           }

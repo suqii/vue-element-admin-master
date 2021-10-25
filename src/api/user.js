@@ -79,6 +79,22 @@ export function changeStatusAble(user_id) {
     params: { user_id }
   })
 }
+// 设置用户为管理员
+export function adminSet(user_id) {
+  return request({
+    url: '/vue-element-admin/user/adminSet',
+    method: 'post',
+    params: { user_id }
+  })
+}
+// 解除用户为管理员
+export function adminCancel(user_id) {
+  return request({
+    url: '/vue-element-admin/user/adminCancel',
+    method: 'post',
+    params: { user_id }
+  })
+}
 // 修改用户
 export function userEdit(user_id, job, path, sex, email) {
   return request({

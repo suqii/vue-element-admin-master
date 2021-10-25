@@ -29,7 +29,7 @@
               </div>
             </div>
 
-            <div class="user-skills user-bio-section">
+            <!-- <div class="user-skills user-bio-section">
               <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>技能</span></div>
               <div class="user-bio-section-body">
                 <div class="progress-item">
@@ -49,7 +49,7 @@
                   <el-progress :percentage="100" status="success" />
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </el-card>
       </el-col>
