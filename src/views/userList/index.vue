@@ -222,7 +222,7 @@
         <el-form-item label="手机" prop="phone">
           <el-input v-model="editForm.phone" />
         </el-form-item>
-        <el-form-item label="工作" prop="userinfo.job">
+        <el-form-item label="签名" prop="userinfo.job">
           <el-input v-model="editForm.userinfo.job" />
         </el-form-item>
         <el-form-item label="性别">
@@ -597,13 +597,28 @@ export default {
     },
     // 重置密码
     restPassword(id) {
-      console.log('重置id为' + id + '的密码')
-      rsetUserP(id).then(res => {
-        if (res.code !== 20000) {
-          this.$message.error('重置用户' + id + '密码失败')
-        }
-        // console.log('成功删除' + id)
+      this.$confirm('确定要重置该账号吗？, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
+        .then(() => {
+          rsetUserP(id).then(res => {
+            // console.log(res)
+            if (res.code !== 20000) {
+              this.$message.error('重置用户' + id + '密码失败')
+            } else {
+              this.$message({
+                message: '密码重置成功，当前密码为123456',
+                type: 'success'
+              })
+            }
+            // console.log('成功删除' + id)
+          })
+        })
+        .catch(() => {
+          // 几点取消的提示
+        })
     },
     // 修改用户
     async showEditDialog(id) {

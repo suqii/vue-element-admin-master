@@ -18,8 +18,8 @@ export function getInfo(user_id) {
 // 重置密码
 export function rsetUserP(user_id) {
   return request({
-    url: '/vue-element-admin/user/info',
-    method: 'get',
+    url: '/vue-element-admin/adminRepassword',
+    method: 'post',
     params: { user_id }
   })
 }
