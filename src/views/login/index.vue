@@ -3,7 +3,8 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <img class="pic-404__parent" src="@/assets/logo/logo1.png" alt="404" style="height:200px;">
+        <!-- <h3 class="title">趣寻后台</h3> -->
       </div>
 
       <el-form-item prop="username">
@@ -13,7 +14,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="用户名"
           name="username"
           type="text"
           tabindex="1"
@@ -31,7 +32,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
+            placeholder="密码"
             name="password"
             tabindex="2"
             autocomplete="on"
@@ -45,21 +46,37 @@
         </el-form-item>
       </el-tooltip>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-form-item prop="username">
+        <span class="svg-container">
+          <!-- <svg-icon icon-class="el-icon-postcard" /> -->
+          <i class="el-icon-postcard" />
+        </span>
+        <el-input
+          v-model="formCode"
+          class="input input-code"
+          placeholder="验证码"
+          style="width: 60%;"
+        />
+        <div class="idenCode" @click="refreshCode">
+          <span id="code" title="看不清，换一张">{{ code }}</span>
+        </div>
+      </el-form-item>
+
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
       <div style="position:relative">
-        <div class="tips">
+        <!-- <div class="tips">
           <span>Username : admin</span>
           <span>Password : any</span>
-        </div>
-        <div class="tips">
+        </div> -->
+        <!-- <div class="tips">
           <span style="margin-right:18px;">Username : editor</span>
           <span>Password : any</span>
-        </div>
+        </div> -->
 
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
+        <!-- <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           Or connect with
-        </el-button>
+        </el-button> -->
       </div>
     </el-form>
 
@@ -97,13 +114,26 @@ export default {
     // }
     return {
       loginForm: {
-        username: 'suqi',
-        password: '123456'
+        username: '',
+        password: ''
       },
       loginRules: {
         // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         // password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
+      code: '1',
+      formCode: '',
+      arrays: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+        'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+        'u', 'v', 'w', 'x', 'y', 'z',
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+        'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+        'U', 'V', 'W', 'X', 'Y', 'Z'
+      ],
+      // 验证码
+      identifyCodes: '123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ',
+      identifyCode: '',
       passwordType: 'password',
       capsTooltip: false,
       loading: false,
@@ -128,6 +158,8 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
+    // 验证码
+    this.makeCode(this.identifyCodes, 4)
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {
@@ -138,6 +170,20 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    // 验证码刷新
+    refreshCode() {
+      this.identifyCode = ''
+      this.makeCode(this.identifyCodes, 4)
+    },
+    // 验证码生成
+    makeCode(o, l) {
+      this.code = ''
+      for (let i = 0; i < l; i++) {
+        var r = parseInt(Math.random() * this.arrays.length)
+
+        this.code += this.arrays[r]
+      }
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
@@ -153,22 +199,34 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+      // console.log(this.formCode)
+      // console.log(this.code)
+      // eslint-disable-next-line eqeqeq
+      if (this.formCode.toLowerCase() == this.code.toLowerCase()) {
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            this.loading = true
+            this.$store.dispatch('user/login', this.loginForm)
+              .then(() => {
+                this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+                this.loading = false
+              })
+              .catch(() => {
+                this.loading = false
+              })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      } else {
+        // console.log('验证码错误')
+        this.refreshCode()
+        this.$message({
+          message: '验证码不对，请重新输入',
+          type: 'error'
+        })
+      }
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -237,7 +295,25 @@ $cursor: #fff;
       }
     }
   }
-
+  .idenCode{
+    height: 100%;
+    width: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    background: rgba(255, 255, 255,.1);
+    border-radius: 5px;
+    right: 0px;
+    span {
+      // color: white;
+      cursor: pointer;
+      font-size: 15pt;
+        color: rgb(0, 0, 0);
+        font-family: '华康娃娃体W5';
+    }
+  }
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
@@ -249,13 +325,15 @@ $cursor: #fff;
 
 <style lang="scss" scoped>
 $bg:#2d3a4b;
+$bi: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%);
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-color: $bg;
+  background-image: $bi;
   overflow: hidden;
 
   .login-form {
@@ -289,11 +367,15 @@ $light_gray:#eee;
 
   .title-container {
     position: relative;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 40px;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      // margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
     }
