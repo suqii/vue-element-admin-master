@@ -515,7 +515,7 @@ const asyncRoutes = [
     component: 'layout/Layout',
     children: [
       {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
+        path: 'https://www.apipark.cn/s/2d29c61f-9b54-4402-9892-aea0ea5bba9b',
         meta: { title: '外链', icon: 'link' }
       }
     ]

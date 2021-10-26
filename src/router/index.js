@@ -7,7 +7,7 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
+// import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
@@ -170,12 +170,12 @@ export const asyncRoutes = [
         name: 'TopicClass',
         meta: { title: '分类管理', icon: 'edit' }
       },
-      {
-        path: 'create',
-        component: () => import('@/views/example/create'),
-        name: 'CreateArticle',
-        meta: { title: '创建文章', icon: 'edit' }
-      },
+      // {
+      //   path: 'create',
+      //   component: () => import('@/views/example/create'),
+      //   name: 'CreateArticle',
+      //   meta: { title: '创建文章', icon: 'edit' }
+      // },
       {
         path: 'edit/:id(\\d+)',
         component: () => import('@/views/example/edit'),
@@ -240,7 +240,7 @@ export const asyncRoutes = [
   },
 
   /** when your routing map is too long, you can split it into small modules **/
-  componentsRouter,
+  // componentsRouter,
   chartsRouter,
   // nestedRouter,
   // tableRouter,
@@ -428,8 +428,8 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: '外链', icon: 'link' }
+        path: 'https://www.apipark.cn/s/2d29c61f-9b54-4402-9892-aea0ea5bba9b',
+        meta: { title: 'Api文档', icon: 'link' }
       }
     ]
   },
