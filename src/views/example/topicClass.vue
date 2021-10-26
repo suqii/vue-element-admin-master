@@ -34,6 +34,17 @@
           /></template>
       </el-table-column>
 
+      <el-table-column align="center" label="经度">
+        <template slot-scope="scope">
+          <span>{{ scope.row.longitude }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="纬度">
+        <template slot-scope="scope">
+          <span>{{ scope.row.latitude }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column width="180px" align="center" label="创建日期">
         <template slot-scope="scope">
           <span>{{ scope.row.create_time | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
@@ -68,8 +79,17 @@
         <el-form-item label="分类名称" prop="classname">
           <el-input v-model="jurisdictionAdd.classname" />
         </el-form-item>
+        <el-form-item label="封面" prop="classpic">
+          <el-input v-model="jurisdictionAdd.classpic" />
+        </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-input v-model="jurisdictionAdd.status" />
+        </el-form-item>
+        <el-form-item label="经度" prop="longitude">
+          <el-input v-model="jurisdictionAdd.longitude" />
+        </el-form-item>
+        <el-form-item label="纬度" prop="latitude">
+          <el-input v-model="jurisdictionAdd.latitude" />
         </el-form-item>
         <el-form-item>
           <div class="align">
@@ -102,6 +122,12 @@
         </el-form-item>
         <el-form-item label="封面URL" prop="name">
           <el-input v-model="editorClassPic" />
+        </el-form-item>
+        <el-form-item label="经度" prop="name">
+          <el-input v-model="editorClassLongitude" />
+        </el-form-item>
+        <el-form-item label="纬度" prop="name">
+          <el-input v-model="editorClassLatitude" />
         </el-form-item>
         <el-form-item label="分类ID" prop="idCode">
           <el-input v-model="jurisdictionEditor.id" disabled />
@@ -144,7 +170,9 @@ export default {
       jurisdictionAdd: {},
       editorClassName: null,
       editorClassPic: null,
-      editorClassId: null,
+      editorClassLongitude: null,
+      editorClassLatitude: null,
+      editorClass: null,
       jurisdictionID: '',
       jurisdictionName: '',
       jurisdictionEditor: {},
@@ -166,6 +194,8 @@ export default {
       this.editorClassName = row.classname
       this.editorClassPic = row.classpic
       this.editorClassId = row.id
+      this.editorClassLatitude = row.latitude
+      this.editorClassLongitude = row.longitude
       this.dialogVisible = true
       console.log(this.jurisdictionEditor)
     },
@@ -174,7 +204,7 @@ export default {
       this.listLoading = true
       console.log(this.editorClassName)
       console.log(this.editorClassId)
-      topicClassEdit(this.editorClassName, this.editorClassPic, this.editorClassId).then(response => {
+      topicClassEdit(this.editorClassName, this.editorClassPic, this.editorClassLongitude, this.editorClassLatitude, this.editorClassId).then(response => {
         // eslint-disable-next-line eqeqeq
         if (response.code == 20000) {
           this.getList()
@@ -211,7 +241,7 @@ export default {
     // 新增分类
     aTopicClass() {
       // console.log(this.jurisdictionAdd)
-      topicClassAdd(this.jurisdictionAdd.classname, this.jurisdictionAdd.status).then(response => {
+      topicClassAdd(this.jurisdictionAdd.classname, this.jurisdictionAdd.classpic, this.jurisdictionAdd.status, this.jurisdictionAdd.longitude, this.jurisdictionAdd.latitude).then(response => {
         // eslint-disable-next-line eqeqeq
         if (response.code == 20000) {
           this.$message.success('添加成功')

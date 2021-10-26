@@ -57,19 +57,19 @@ export function getTopicClassList(query) {
   })
 }
 // 新增分类
-export function topicClassAdd(classname, status) {
+export function topicClassAdd(classname, classpic, status, longitude, latitude) {
   return request({
     url: '/vue-element-admin/topic/topicClassAdd',
     method: 'post',
-    params: { classname, status }
+    params: { classname, classpic, status, longitude, latitude }
   })
 }
 // 编辑分类
-export function topicClassEdit(classname, classpic, topic_class_id) {
+export function topicClassEdit(classname, classpic, longitude, latitude, topic_class_id) {
   return request({
     url: '/vue-element-admin/topic/topicClassEdit',
     method: 'post',
-    params: { classname, classpic, topic_class_id }
+    params: { classname, classpic, longitude, latitude, topic_class_id }
   })
 }
 // 删除分类
