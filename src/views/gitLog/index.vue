@@ -82,8 +82,8 @@ export default {
         this.vueElAdTxt = response.data.vue_element_admin_log
         // console.log(this.freeFindTxt)
         var matchTime = /[(](.*)[)]/
-        var matchCon = /["|'](.*)["|']/
-        var matchMethed = /[)](.*)[:]/
+        var matchCon = /["|'|“](.*)["|'|”]/
+        var matchMethed = /[)](.*)[:|"]/
         var matchUser = /[{](.*)[}]/
         const freeFindCode = this.freeFindTxt.split(/[\r\n]+/)
         const vueElAdCode = this.vueElAdTxt.split(/[\r\n]+/)
