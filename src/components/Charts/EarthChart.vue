@@ -60,10 +60,12 @@ export default {
     initChart() {
       // const _this = this
       this.chart = echarts.init(document.getElementById(this.id))
-      // var population_data = './earthData/data-1573131280684-B3_8BYdo.json'
+      var population_data = '../earthData/data-1573131280684-B3_8BYdo.json'
       // console.log(_this.population)
       // console.log(_this.population)
-      $.getJSON('/getEarthData', function(data) {
+      console.log('获取数据a')
+      $.getJSON(population_data, function(data) {
+        console.log('获取数据b')
         data = data
           .filter(function(dataItem) {
             return dataItem[2] > 0
@@ -71,7 +73,7 @@ export default {
           .map(function(dataItem) {
             return [dataItem[0], dataItem[1], Math.sqrt(dataItem[2])]
           })
-
+        console.log(data)
         const canvas = document.createElement('canvas')
         const mapChart = echarts.init(canvas, null, {
           width: 4096,
