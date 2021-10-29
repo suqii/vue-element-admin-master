@@ -75,11 +75,11 @@ export default {
             return [dataItem[0], dataItem[1], Math.sqrt(dataItem[2])]
           })
         console.log(data)
-        const canvas = document.createElement('canvas')
-        const mapChart = echarts.init(canvas, null, {
-          width: 4096,
-          height: 2048
-        })
+        // const canvas = document.createElement('canvas')
+        // const mapChart = echarts.init(canvas, null, {
+        //   width: 4096,
+        //   height: 2048
+        // })
 
         // 世界人口分布气泡图
         _this.chart.setOption({
@@ -109,7 +109,7 @@ export default {
             baseTexture: '../earthData/data-1565167424629-_VRUzTZn2.jpg', // 底图
             heightTexture: '../earthData/data-1491889019097-rJQYikcpl.jpg', // 纹理（高度）贴图
             // heightTexture: '../earthData/data-1573130275525-nUJPfdWG.jpg',  // 纹理（高度）贴图
-            displacementScale: 0.04,
+            displacementScale: 0.1,
             displacementQuality: 'high',
             globeOuterRadius: 120, // 数据半径（数据值 与 地心的距离）
             // baseColor: '#000',           // 地表颜色
@@ -131,17 +131,12 @@ export default {
               enable: true
             },
             light: {
+              ambient: {
+                intensity: 0.1
+              },
               main: {
-                color: '#fff', // 光照颜色
-                intensity: 1.2, // 光照强度
-                shadow: false // 是否显示纹理的阴影
+                intensity: 1.5
               }
-              // ambientCubemap: { // 背景光照调节
-              //     // texture: ROOT_PATH + 'data-gl/asset/pisa.hdr',
-              //     // exposure: 1,
-              //     // specularIntensity: 2,
-              //     diffuseIntensity: 0.2
-              // }
             },
             viewControl: {
               projection: 'perspective',
@@ -156,7 +151,14 @@ export default {
             layers: [
               {
                 type: 'blend',
-                texture: mapChart
+                blendTo: 'emission',
+                texture: '../earthData/night.jpg'
+              },
+              {
+                type: 'overlay',
+                texture: '../earthData/clouds.png',
+                shading: 'lambert',
+                distance: 2
               }
             ]
           },
@@ -167,7 +169,7 @@ export default {
             symbolSize: 2,
             itemStyle: {
               // color: 'rgb(255,255, 255)',
-              color: 'rgb(138,138,0)', // 数据颜色
+              color: 'rgb(15, 64, 130)', // 数据颜色
               opacity: 1
             },
             data: data
