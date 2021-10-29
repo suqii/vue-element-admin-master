@@ -4,7 +4,7 @@
 
 <script>
 import { wordCloudCount } from '@/api/test'
-import echarts from 'echarts'
+import * as echarts from 'echarts'
 import resize from './mixins/resize'
 import 'echarts-wordcloud/dist/echarts-wordcloud'
 import 'echarts-wordcloud/dist/echarts-wordcloud.min'

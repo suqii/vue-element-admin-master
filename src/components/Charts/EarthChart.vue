@@ -6,7 +6,8 @@
 import $ from 'jquery'
 import population_data from './earthData/data-1573131280684-B3_8BYdo.json'
 import { charts } from '@/api/test'
-import echarts from 'echarts'
+import * as echarts from 'echarts'
+import 'echarts-gl'
 import resize from './mixins/resize'
 
 export default {
