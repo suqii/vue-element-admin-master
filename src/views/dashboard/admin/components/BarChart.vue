@@ -95,6 +95,7 @@ export default {
         yAxis: [
           {
             type: 'value',
+            axisLine: { show: true },
             axisTick: {
               show: false
             }

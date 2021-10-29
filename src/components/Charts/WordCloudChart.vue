@@ -110,18 +110,16 @@ export default {
             // 随机生成字体颜色
             // maskImage: '../../assets/wordcloud/',
             textStyle: {
-              normal: {
-                color: function() {
-                  return (
-                    'rgb(' +
-                    Math.round(Math.random() * 255) +
-                    ', ' +
-                    Math.round(Math.random() * 255) +
-                    ', ' +
-                    Math.round(Math.random() * 255) +
-                    ')'
-                  )
-                }
+              fontFamily: 'sans-serif',
+              fontWeight: 'bold',
+              // Color can be a callback function or a color string
+              color: function() {
+                // Random color
+                return 'rgb(' + [
+                  Math.round(Math.random() * 255),
+                  Math.round(Math.random() * 255),
+                  Math.round(Math.random() * 255)
+                ].join(',') + ')'
               }
             },
             // 位置相关设置

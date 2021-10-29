@@ -125,16 +125,18 @@ export default {
         }],
         yAxis: [{
           type: 'value',
+          axisLine: { show: true },
           splitLine: {
             show: false
           },
+          // eslint-disable-next-line no-dupe-keys
           axisLine: {
             lineStyle: {
               color: '#90979c'
             }
           },
           axisTick: {
-            show: false
+            show: true
           },
           axisLabel: {
             interval: 0

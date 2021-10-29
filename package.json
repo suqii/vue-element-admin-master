@@ -24,7 +24,7 @@
     "dropzone": "5.5.1",
     "echarts": "^5.2.1",
     "echarts-gl": "^2.0.8",
-    "echarts-wordcloud": "^1.1.3",
+    "echarts-wordcloud": "^2.0.0",
     "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.6",
     "file-saver": "2.0.1",

@@ -64,9 +64,9 @@ export default {
       var population_data = '../earthData/data-1573131280684-B3_8BYdo.json'
       // console.log(_this.population)
       // console.log(_this.population)
-      console.log('获取数据a')
+      // console.log('获取数据a')
       $.getJSON(population_data, function(data) {
-        console.log('获取数据b')
+        // console.log('获取数据b')
         data = data
           .filter(function(dataItem) {
             return dataItem[2] > 0
@@ -85,8 +85,8 @@ export default {
         _this.chart.setOption({
           // backgroundColor: '#333',
           title: {
-            text: '世界人口分布',
-            subtext: 'data from echarts examples',
+            text: '世界景点热度图',
+            subtext: '趣寻-freedFind',
             sublink:
               'https://www.echartsjs.com/examples/data-gl/asset/data/population.json',
             top: 10, //  与顶部的距离

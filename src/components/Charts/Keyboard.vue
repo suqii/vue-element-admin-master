@@ -85,7 +85,7 @@ export default {
         },
         yAxis: {
           axisLine: {
-            show: false
+            show: true
           },
           axisLabel: {
             textStyle: {

@@ -85,6 +85,7 @@ export default {
           padding: [5, 10]
         },
         yAxis: {
+          axisLine: { show: true },
           axisTick: {
             show: false
           }

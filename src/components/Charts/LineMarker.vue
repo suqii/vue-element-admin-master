@@ -122,6 +122,8 @@ export default {
               color: '#57617B'
             }
           },
+          // eslint-disable-next-line no-dupe-keys
+          axisLine: { show: true },
           axisLabel: {
             margin: 10,
             textStyle: {
