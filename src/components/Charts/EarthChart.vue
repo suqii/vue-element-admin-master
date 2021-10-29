@@ -58,7 +58,7 @@ export default {
       })
     },
     initChart() {
-      // const _this = this
+      const _this = this
       this.chart = echarts.init(document.getElementById(this.id))
       var population_data = '../earthData/data-1573131280684-B3_8BYdo.json'
       // console.log(_this.population)
@@ -81,7 +81,7 @@ export default {
         })
 
         // 世界人口分布气泡图
-        this.chart.setOption({
+        _this.chart.setOption({
           // backgroundColor: '#333',
           title: {
             text: '世界人口分布',
