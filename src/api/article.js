@@ -168,3 +168,12 @@ export function getGitLog(query) {
     params: query
   })
 }
+
+// oss
+export function oss(file) {
+  return request({
+    url: '/oss',
+    method: 'post',
+    params: { file }
+  })
+}

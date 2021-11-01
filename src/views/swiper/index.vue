@@ -64,6 +64,22 @@
         label-width="70px"
       >
         <el-form-item label="" class="imageUrl">
+          <el-upload
+            ref="uploadForm"
+            :before-upload="beforeUpload"
+            :http-request="uploadFile"
+            accept="image/png,image/jpg,image/jpeg"
+            action="string"
+            class="upload-demo"
+            multiple
+          >
+            <el-button size="small" class="upload-btn" type="primary">
+              <span class="iconfont icon-shangchuan" />上传文件
+            </el-button>
+          </el-upload>
+
+        </el-form-item>
+        <el-form-item label="" class="imageUrl">
           <img :src="editForm.adsensesrc" class="avatar">
         </el-form-item>
         <el-form-item label="路径" prop="src">
@@ -124,7 +140,7 @@
 
 <script>
 // import { fetchList, getTopicList } from '@/api/article'
-import { adsenseDelete, adsenseAdd, adsenseEdit, getAdsenseList } from '@/api/article'
+import { oss, adsenseDelete, adsenseAdd, adsenseEdit, getAdsenseList } from '@/api/article'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -178,6 +194,39 @@ export default {
     this.addForm.titlepic = 'http://suqiqi.oss-cn-beijing.aliyuncs.com/freeFind/5.png'
   },
   methods: {
+    // 上传文件
+    uploadFile(item) {
+      // 开始上传文件 新建一个formData
+      // const formData = new FormData()
+      // 通过append向form对象添加数据
+      // formData.append('file', item.file)
+      console.log(item.file)
+      oss(item.file).then(response => {
+        console.log(response)
+      })
+    },
+    // 移除上传图片列表
+    clearFlies() {
+      this.$refs.uploadForm.clearFiles()
+    },
+    // 上传文件之前
+    beforeUpload(file) {
+      const fileSuffix = file.name.substring(file.name.lastIndexOf('.') + 1)
+      const extension1 = fileSuffix === 'png'
+      const extension2 = fileSuffix === 'jpg'
+      const extension3 = fileSuffix === 'jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 0.5
+
+      if (!extension1 && !extension2 && !extension3) {
+        this.$msg('上传文件只能是 png、jpg、jpeg格式', 'error')
+        return false
+      }
+
+      if (!isLt2M) {
+        this.$msg('上传文件大小不能超过 2MB', 'error')
+        return false
+      }
+    },
     // 编辑话题
     showEditDialog(row) {
       console.log(row)

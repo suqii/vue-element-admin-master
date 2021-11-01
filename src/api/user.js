@@ -139,3 +139,12 @@ export function sendStatus() {
     method: 'get'
   })
 }
+
+// oss
+export function oss(file) {
+  return request({
+    url: '/oss',
+    method: 'post',
+    params: { file }
+  })
+}
