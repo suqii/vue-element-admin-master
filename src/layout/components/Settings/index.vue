@@ -1,26 +1,30 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">Page style setting</h3>
+      <h3 class="drawer-title">设置</h3>
 
       <div class="drawer-item">
-        <span>Theme Color</span>
+        <span>主题颜色</span>
         <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
       </div>
 
       <div class="drawer-item">
-        <span>Open Tags-View</span>
+        <span>打开标签</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>Fixed Header</span>
+        <span>固定顶部栏</span>
         <el-switch v-model="fixedHeader" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>Sidebar Logo</span>
+        <span>侧边栏Logo</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
+      </div>
+      <div class="drawer-item">
+        <span>阿里大于短信服务</span>
+        <el-switch v-model="sendStatus" class="drawer-switch" @change="sendSet()" />
       </div>
 
     </div>
@@ -29,11 +33,14 @@
 
 <script>
 import ThemePicker from '@/components/ThemePicker'
+import { sendFlag, sendStatus } from '@/api/user'
 
 export default {
   components: { ThemePicker },
   data() {
-    return {}
+    return {
+      sendStatus: false
+    }
   },
   computed: {
     fixedHeader: {
@@ -70,7 +77,27 @@ export default {
       }
     }
   },
+  created() {
+    this.getSendStatus()
+  },
   methods: {
+    sendSet() {
+      // console.log('值改变' + this.sendStatus)
+      sendFlag(this.sendStatus).then(res => {
+        console.log(res)
+      })
+    },
+    getSendStatus() {
+      sendStatus().then(response => {
+        // console.log(response.data)
+        // eslint-disable-next-line eqeqeq
+        if (response.data == 'true') {
+          this.sendStatus = true
+        } else {
+          this.sendStatus = false
+        }
+      })
+    },
     themeChange(val) {
       this.$store.dispatch('settings/changeSetting', {
         key: 'theme',

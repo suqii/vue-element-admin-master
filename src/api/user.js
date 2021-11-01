@@ -124,3 +124,18 @@ export function logout() {
     method: 'post'
   })
 }
+// 是否开启阿里大于短信功能
+export function sendFlag(isUse) {
+  return request({
+    url: '/user/sendFlag',
+    method: 'post',
+    params: { isUse }
+  })
+}
+// 获取阿里大于短信控制状态
+export function sendStatus() {
+  return request({
+    url: '/user/sendStatus',
+    method: 'get'
+  })
+}
